@@ -1,0 +1,191 @@
+Disassembly Listing for 2023-03-22-Projekt
+Generated From:
+D:/StudiumG/Studium/Master1/Eingebettete Systeme/Elemente I/MPLABXProjects/2023-03-22-Projekt.X/dist/default/production/2023-03-22-Projekt.X.production.elf
+29.03.2023 15:59:29
+
+---  D:/StudiumG/Studium/Master1/Eingebettete Systeme/Elemente I/MPLABXProjects/2023-03-22-Projekt.X/main.c
+1:                 // Prof. Dr. Artem Ivanov
+2:                 // HAW Landshut
+3:                 
+4:                 
+5:                 #include <xc.h> // include processor description
+6:                 #include "main.h"
+7:                 
+8:                 int main(void)
+9:                 {
+00034A  FA0008     LNK #0x8
+10:                	initialize_HW();
+00034C  07FFDE     RCALL initialize_HW
+11:                    uint16_t xalt = 0;
+00034E  EB0000     CLR W0
+000350  780F00     MOV W0, [W14]
+12:                    uint16_t xneu = 0;
+000352  EB0080     CLR W1
+000354  E8800E     INC2 W14, W0
+000356  780801     MOV W1, [W0]
+13:                    uint16_t xalt2 = 0;
+000358  EB0080     CLR W1
+00035A  470064     ADD W14, #0x4, W0
+00035C  780801     MOV W1, [W0]
+14:                    uint16_t xneu2 = 0;
+00035E  EB0080     CLR W1
+000360  470066     ADD W14, #0x6, W0
+000362  780801     MOV W1, [W0]
+15:                	// main loop:
+16:                	while(1)
+17:                	{
+18:                       /* xneu = 0;
+19:                        xneu2=0;
+20:                        if(PORTBbits.RB3==0){
+21:                            xneu=1;
+22:                            if(xneu == 1 && xalt == 0){     // Flankenerkennung
+23:                            
+24:                            LATCbits.LATC12 = 1 ^ PORTCbits.RC12;
+25:                
+26:                            }}
+27:                       if(PORTDbits.RD8==0){
+28:                            xneu2=1;
+29:                            if(xneu2 == 1 && xalt2 == 0){ 
+30:                           LATCbits.LATC15 = 1 ^ PORTCbits.RC15;
+31:                            }}
+32:                
+33:                       xalt = xneu; 
+34:                       xalt2=xneu2;*/
+35:                       
+36:                        LATCbits.LATC12 = 1;
+000364  A882D5     BSET 0x2D5, #4
+37:                        LATCbits.LATC12 = 0;
+000366  A982D5     BCLR 0x2D5, #4
+38:                	}	
+000368  37FFFD     BRA .L2
+39:                }	
+---  D:/StudiumG/Studium/Master1/Eingebettete Systeme/Elemente I/MPLABXProjects/2023-03-22-Projekt.X/init.c
+1:                 // Initialization of the hardware
+2:                 
+3:                 #include <xc.h> // include processor description
+4:                 
+5:                 
+6:                 // Set cofiguration registers:-------------------------------------------------------------
+7:                 // CONFIG4
+8:                 #pragma config DSWDTPS = DSWDTPS1F      // Deep Sleep Watchdog Timer Postscale Select bits (1:68719476736 (25.7 Days))
+9:                 #pragma config DSWDTOSC = LPRC          // DSWDT Reference Clock Select (DSWDT uses LPRC as reference clock)
+10:                #pragma config DSBOREN = OFF            // Deep Sleep BOR Enable bit (DSBOR Disabled)
+11:                #pragma config DSWDTEN = OFF            // Deep Sleep Watchdog Timer Enable (DSWDT Disabled)
+12:                #pragma config DSSWEN = OFF             // DSEN Bit Enable (Deep Sleep operation is always disabled)
+13:                #pragma config RTCBAT = ON              // RTC Battery Operation Enable (RTC operation is continued through VBAT)
+14:                #pragma config PLLDIV = NODIV           // PLL Input Prescaler Select bits (Oscillator used directly (4 MHz input))
+15:                #pragma config I2C2SEL = SEC            // Alternate I2C2 Location Select bit (I2C2 is multiplexed to SDA2/RF4 and SCL2/RF5)
+16:                #pragma config IOL1WAY = OFF            // PPS IOLOCK Set Only Once Enable bit (The IOLOCK bit can be set and cleared using the unlock sequence)
+17:                
+18:                // CONFIG3
+19:                #pragma config WPFP = WPFP0             // Write Protection Flash Page Segment Boundary (Page 0 (0x00))
+20:                #pragma config SOSCSEL = ON             // SOSC Selection bits (SOSC circuit selected)
+21:                #pragma config WDTWIN = PS25_0          // Window Mode Watchdog Timer Window Width Select (Watch Dog Timer Window Width is 25 percent)
+22:                #pragma config BOREN = ON               // Brown-out Reset Enable (Brown-out Reset Enable)
+23:                #pragma config WPDIS = WPDIS            // Segment Write Protection Disable (Disabled)
+24:                #pragma config WPCFG = WPCFGDIS         // Write Protect Configuration Page Select (Disabled)
+25:                #pragma config WPEND = WPSTARTMEM       // Segment Write Protection End Page Select (Write Protect from page 0 to WPFP)
+26:                
+27:                // CONFIG2
+28:                #pragma config POSCMD = NONE            // Primary Oscillator Select (Primary Oscillator Disabled)
+29:                #pragma config WDTCLK = LPRC            // WDT Clock Source Select bits (WDT uses LPRC)
+30:                #pragma config OSCIOFCN = ON           // OSCO Pin Configuration (OSCO/CLKO/RC15 functions as CLKO (FOSC/2))
+31:                #pragma config FCKSM = CSDCMD           // Clock Switching and Fail-Safe Clock Monitor Configuration bits (Clock switching and Fail-Safe Clock Monitor are disabled)
+32:                #pragma config FNOSC = FRCPLL           // Initial Oscillator Select (Fast RC Oscillator with PLL module (FRCPLL))
+33:                #pragma config ALTADREF = AVREF_RB      // External 12-Bit A/D Reference Location Select bit (AVREF+/AVREF- are mapped to RB0/RB1)
+34:                #pragma config ALTCVREF = CVREF_RB      // External Comparator Reference Location Select bit (CVREF+/CVREF- are mapped to RB0/RB1)
+35:                #pragma config WDTCMX = LPRC            // WDT Clock Source Select bits (WDT always uses LPRC as its clock source)
+36:                #pragma config IESO = OFF               // Internal External Switchover (Disabled)
+37:                
+38:                // CONFIG1
+39:                #pragma config WDTPS = PS32768          // Watchdog Timer Postscaler Select (1:32,768)
+40:                #pragma config FWPSA = PR128            // WDT Prescaler Ratio Select (1:128)
+41:                #pragma config WINDIS = OFF             // Windowed WDT Disable (Standard Watchdog Timer)
+42:                #pragma config FWDTEN = WDT_SW          // Watchdog Timer Enable (WDT controlled with the SWDTEN bit)
+43:                #pragma config ICS = PGx3               // Emulator Pin Placement Select bits (Emulator functions are shared with PGEC3/PGED3)
+44:                #pragma config LPCFG = ON               // Low power regulator control (Low voltage regulator controlled in sw by RETEN bit)
+45:                #pragma config GWRP = OFF               // General Segment Write Protect (Disabled)
+46:                #pragma config GCP = OFF                // General Segment Code Protect (Code protection is disabled)
+47:                #pragma config JTAGEN = OFF             // JTAG Port Enable (Disabled)
+48:                
+49:                //==========================================================================================
+50:                void initialize_HW(void){
+00030A  FA0000     LNK #0x0
+51:                	
+52:                // Oscillator Configuration----------------------------------------------
+53:                // setting F_cy = Fosc/2 = 16MHz:
+54:                	CLKDIVbits.RCDIV = 1;			// divide by 2 (actually default)
+00030C  803A31     MOV CLKDIV, W1
+00030E  2F8FF0     MOV #0xF8FF, W0
+000310  608000     AND W1, W0, W0
+000312  A08000     BSET W0, #8
+000314  883A30     MOV W0, CLKDIV
+55:                	CLKDIVbits.CPDIV = 0;			// no division Clock=32MHz (default) 
+000316  803A31     MOV CLKDIV, W1
+000318  2FF3F0     MOV #0xFF3F, W0
+00031A  608000     AND W1, W0, W0
+00031C  883A30     MOV W0, CLKDIV
+56:                	
+57:                // Pin functions --------------------------------------------------------
+58:                // 1. Analog / digital:
+59:                	ANSBbits.ANSB2 = 0;                    // RB2 = signal "ON" - digital
+00031E  A944E2     BCLR ANSB, #2
+60:                	ANSBbits.ANSB7 = 0;	
+000320  A9E4E2     BCLR ANSB, #7
+61:                    ANSDbits.ANSD8 =0;
+000322  A904E7     BCLR 0x4E7, #0
+62:                    ANSBbits.ANSB3 = 0;
+000324  A964E2     BCLR ANSB, #3
+63:                    
+64:                // 2. Digital Input / Output:
+65:                	TRISBbits.TRISB2 = 0;                  // "ON" = output
+000326  A942C8     BCLR TRISB, #2
+66:                    TRISCbits.TRISC12 = 0;                  //output LED D5 
+000328  A982D1     BCLR 0x2D1, #4
+67:                    TRISBbits.TRISB7 = 1;                  //Input K1
+00032A  A8E2C8     BSET TRISB, #7
+68:                    //TRISCbits.TRISC15 = 0;                  //output LED D6
+69:                    TRISDbits.TRISD8 =1;                   //Input K2
+00032C  A802D9     BSET 0x2D9, #0
+70:                    TRISBbits.TRISB3 =1;                   //Input K3
+00032E  A862C8     BSET TRISB, #3
+71:                    
+72:                // 3. Output level on digital pins:
+73:                	LATBbits.LATB2 = 0;                    //Aus
+000330  A942CC     BCLR LATB, #2
+74:                    LATCbits.LATC12 = 0;        
+000332  A982D5     BCLR 0x2D5, #4
+75:                    //LATCbits.LATC15 = 0;
+76:                    
+77:                // 4. Open drain settings:
+78:                	ODCBbits.ODB2 = 1;                     // open drain on "ON"
+000334  A842CE     BSET ODCB, #2
+79:                	
+80:                //5. Osc Settings finetune
+81:                    OSCTUNbits.TUN = 0b011111;
+000336  803A41     MOV OSCTUN, W1
+000338  2FFC00     MOV #0xFFC0, W0
+00033A  608000     AND W1, W0, W0
+00033C  B301F0     IOR #0x1F, W0
+00033E  883A40     MOV W0, OSCTUN
+82:                    //OSCTUNbits.TUN4 = 1;
+83:                	
+84:                //6. Input change notification
+85:                    //Interrupt enable
+86:                    //CNEN1bits.CN4IE = 1;
+87:                    
+88:                    //Pullup/Pulldown
+89:                    CNPU1bits.CN4PUE = 1 ; // Pull up
+000340  A8806E     BSET CNPU1, #4
+90:                    
+91:                 //7. Timers
+92:                    T1CONbits.TON=1;            //Timer an
+000342  A8E105     BSET 0x105, #7
+93:                    T1CONbits.TCKPS1=1;         //Prescaler clock 1:256
+000344  A8A104     BSET T1CON, #5
+94:                    
+95:                    
+96:                    
+97:                    }
+000346  FA8000     ULNK
+000348  060000     RETURN
