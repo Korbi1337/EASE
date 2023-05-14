@@ -15,8 +15,9 @@ void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void);
 volatile uint16_t timer4ms = 0;       //Globale Zählervariable Systemzeit
 volatile uint16_t delaytime4 = 0;     //Vergleichswert für Entprellzeit
 volatile uint16_t key_event=0;
-volatile uint16_t freqflag=1;
-volatile uint16_t soundflag=0;
+volatile uint16_t SendenFlag=0;
+volatile uint16_t Receive = 0;           //Empfangenes UART Bit
+volatile uint16_t Display = 123; //Angezeiter Wert
 
 
 uint16_t entprellzeit=4;

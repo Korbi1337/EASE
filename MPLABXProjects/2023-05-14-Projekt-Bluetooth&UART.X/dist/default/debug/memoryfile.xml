@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <executable name="dist/default/debug/2023-05-14-Projekt-Bluetooth_UART.X.debug.elf">
+    <memory name="data">
+      <units>bytes</units>
+      <length>8192</length>
+      <used>1116</used>
+      <free>7076</free>
+    </memory>
+    <memory name="program">
+      <units>bytes</units>
+      <length>131316</length>
+      <used>3585</used>
+      <free>127731</free>
+    </memory>
+  </executable>
+</project>
