@@ -5,11 +5,11 @@
 #include <xc.h> // include processor description
 #include "main.h"
 #include <math.h>
+//#include "Display.c"
 
 void __attribute__((interrupt(auto_psv))) _DefaultInterrupt(void){
     LATCbits.LATC15 = 1 ^ PORTCbits.RC15;     //Default: LED D5 blinkt
 }
-
 
 void __attribute__((interrupt(auto_psv))) _T2Interrupt(void) //Interrupt Timer: 22050 Hz 
 {
@@ -41,6 +41,104 @@ void __attribute__((interrupt(auto_psv))) _CNInterrupt(void){       //change not
         _CNIF=0;
     }
 
+void __attribute__((interrupt(auto_psv))) _UART1ReceiverInterrupt(void){   
+    IFS0bits.U1RXIF = 0;    //Reset Interrupt Flag
+}
+
+void PrintDigit_LCD(uint16_t segment,uint16_t nummer){
+        if(segment==1)
+        {
+        switch(nummer){//a,b,c,d,e,f,g
+            case 0: _S22C3=1;_S22C2=1;_S23C3=1;_S22C0=1;_S23C1=1;_S23C2=1;_S22C1=0; break; //a,b,c,d,e,f
+            case 1: _S22C3=0;_S22C2=1;_S23C3=1;_S22C0=0;_S23C1=0;_S23C2=0;_S22C1=0; break; //b,c
+            case 2: _S22C3=1;_S22C2=1;_S23C3=0;_S22C0=1;_S23C1=1;_S23C2=0;_S22C1=1; break; //a,b,d,e,g
+            case 3: _S22C3=1;_S22C2=1;_S23C3=1;_S22C0=1;_S23C1=0;_S23C2=0;_S22C1=1; break; //a,b,c,d,g
+            case 4: _S22C3=0;_S22C2=1;_S23C3=1;_S22C0=0;_S23C1=0;_S23C2=1;_S22C1=1; break; //b,c,f,g
+            case 5: _S22C3=1;_S22C2=0;_S23C3=1;_S22C0=1;_S23C1=0;_S23C2=1;_S22C1=1; break; //a,c,d,f,g
+            case 6: _S22C3=1;_S22C2=0;_S23C3=1;_S22C0=1;_S23C1=1;_S23C2=1;_S22C1=1; break; //a,c,d,e,f,g
+            case 7: _S22C3=1;_S22C2=1;_S23C3=1;_S22C0=0;_S23C1=0;_S23C2=0;_S22C1=0; break; //a,b,c
+            case 8: _S22C3=1;_S22C2=1;_S23C3=1;_S22C0=1;_S23C1=1;_S23C2=1;_S22C1=1; break; //a,b,c,d,e,f,g
+            case 9: _S22C3=1;_S22C2=1;_S23C3=1;_S22C0=1;_S23C1=0;_S23C2=1;_S22C1=1; break; //a,b,c,d,f,g
+                
+            default: break;}
+        
+        }
+        
+                
+        if(segment==2)
+        {
+        switch(nummer){//a,b,c,d,e,f,g
+            case 0: _S20C3=1;_S20C2=1;_S21C3=1;_S20C0=1;_S21C1=1;_S21C2=1;_S20C1=0; break; //a,b,c,d,e,f
+            case 1: _S20C3=0;_S20C2=1;_S21C3=1;_S20C0=0;_S21C1=0;_S21C2=0;_S20C1=0; break; //b,c
+            case 2: _S20C3=1;_S20C2=1;_S21C3=0;_S20C0=1;_S21C1=1;_S21C2=0;_S20C1=1; break; //a,b,d,e,g
+            case 3: _S20C3=1;_S20C2=1;_S21C3=1;_S20C0=1;_S21C1=0;_S21C2=0;_S20C1=1; break; //a,b,c,d,g
+            case 4: _S20C3=0;_S20C2=1;_S21C3=1;_S20C0=0;_S21C1=0;_S21C2=1;_S20C1=1; break; //b,c,f,g
+            case 5: _S20C3=1;_S20C2=0;_S21C3=1;_S20C0=1;_S21C1=0;_S21C2=1;_S20C1=1; break; //a,c,d,f,g
+            case 6: _S20C3=1;_S20C2=0;_S21C3=1;_S20C0=1;_S21C1=1;_S21C2=1;_S20C1=1; break; //a,c,d,e,f,g
+            case 7: _S20C3=1;_S20C2=1;_S21C3=1;_S20C0=0;_S21C1=0;_S21C2=0;_S20C1=0; break; //a,b,c
+            case 8: _S20C3=1;_S20C2=1;_S21C3=1;_S20C0=1;_S21C1=1;_S21C2=1;_S20C1=1; break; //a,b,c,d,e,f,g
+            case 9: _S20C3=1;_S20C2=1;_S21C3=1;_S20C0=1;_S21C1=0;_S21C2=1;_S20C1=1; break; //a,b,c,d,f,g
+                
+            default: break;}
+        
+        }
+        
+                
+        if(segment==3)
+        {
+        switch(nummer){//a,b,c,d,e,f,g
+            case 0: _S16C3=1;_S16C2=1;_S17C3=1;_S16C0=1;_S17C1=1;_S17C2=1;_S16C1=0; break; //a,b,c,d,e,f
+            case 1: _S16C3=0;_S16C2=1;_S17C3=1;_S16C0=0;_S17C1=0;_S17C2=0;_S16C1=0; break; //b,c
+            case 2: _S16C3=1;_S16C2=1;_S17C3=0;_S16C0=1;_S17C1=1;_S17C2=0;_S16C1=1; break; //a,b,d,e,g
+            case 3: _S16C3=1;_S16C2=1;_S17C3=1;_S16C0=1;_S17C1=0;_S17C2=0;_S16C1=1; break; //a,b,c,d,g
+            case 4: _S16C3=0;_S16C2=1;_S17C3=1;_S16C0=0;_S17C1=0;_S17C2=1;_S16C1=1; break; //b,c,f,g
+            case 5: _S16C3=1;_S16C2=0;_S17C3=1;_S16C0=1;_S17C1=0;_S17C2=1;_S16C1=1; break; //a,c,d,f,g
+            case 6: _S16C3=1;_S16C2=0;_S17C3=1;_S16C0=1;_S17C1=1;_S17C2=1;_S16C1=1; break; //a,c,d,e,f,g
+            case 7: _S16C3=1;_S16C2=1;_S17C3=1;_S16C0=0;_S17C1=0;_S17C2=0;_S16C1=0; break; //a,b,c
+            case 8: _S16C3=1;_S16C2=1;_S17C3=1;_S16C0=1;_S17C1=1;_S17C2=1;_S16C1=1; break; //a,b,c,d,e,f,g
+            case 9: _S16C3=1;_S16C2=1;_S17C3=1;_S16C0=1;_S17C1=0;_S17C2=1;_S16C1=1; break; //a,b,c,d,f,g
+                
+            default: break;}
+        
+        }
+        
+                
+        if(segment==4)
+        {
+        switch(nummer){//a,b,c,d,e,f,g
+            case 0: _S14C3=1;_S14C2=1;_S15C3=1;_S14C0=1;_S15C1=1;_S15C2=1;_S14C1=0; break; //a,b,c,d,e,f
+            case 1: _S14C3=0;_S14C2=1;_S15C3=1;_S14C0=0;_S15C1=0;_S15C2=0;_S14C1=0; break; //b,c
+            case 2: _S14C3=1;_S14C2=1;_S15C3=0;_S14C0=1;_S15C1=1;_S15C2=0;_S14C1=1; break; //a,b,d,e,g
+            case 3: _S14C3=1;_S14C2=1;_S15C3=1;_S14C0=1;_S15C1=0;_S15C2=0;_S14C1=1; break; //a,b,c,d,g
+            case 4: _S14C3=0;_S14C2=1;_S15C3=1;_S14C0=0;_S15C1=0;_S15C2=1;_S14C1=1; break; //b,c,f,g
+            case 5: _S14C3=1;_S14C2=0;_S15C3=1;_S14C0=1;_S15C1=0;_S15C2=1;_S14C1=1; break; //a,c,d,f,g
+            case 6: _S14C3=1;_S14C2=0;_S15C3=1;_S14C0=1;_S15C1=1;_S15C2=1;_S14C1=1; break; //a,c,d,e,f,g
+            case 7: _S14C3=1;_S14C2=1;_S15C3=1;_S14C0=0;_S15C1=0;_S15C2=0;_S14C1=0; break; //a,b,c
+            case 8: _S14C3=1;_S14C2=1;_S15C3=1;_S14C0=1;_S15C1=1;_S15C2=1;_S14C1=1; break; //a,b,c,d,e,f,g
+            case 9: _S14C3=1;_S14C2=1;_S15C3=1;_S14C0=1;_S15C1=0;_S15C2=1;_S14C1=1; break; //a,b,c,d,f,g
+                
+            default: break;}
+        
+        }
+        
+    }
+
+
+    
+    void Print4Digits_LCD(uint16_t digits){
+        
+        uint16_t seg1,seg2,seg3,seg4;
+        
+        seg1=(digits-(digits%1000))/1000;
+        seg2=((digits-(seg1*1000))-(digits%100))/100;
+        seg3=((digits-(seg1*1000)-(seg2*100))-(digits%10))/10;
+        seg4=digits-(seg1*1000)-(seg2*100)-(seg3*10);
+        
+        PrintDigit_LCD(1,seg1);
+        PrintDigit_LCD(2,seg2);
+        PrintDigit_LCD(3,seg3);
+        PrintDigit_LCD(4,seg4);
+    }
     
 int main(void)
 {
@@ -70,7 +168,31 @@ int main(void)
     IFS0bits.DMA0IF=0;
         
 	while(1){
-                    
+        
+        
+    uint8_t Receive = 0; //Empfangenes UART Bit
+    
+    
+    
+    Print4Digits_LCD(Receive);
+        
+        /* Check for receive errors */
+        if(U1STAbits.FERR == 1){
+            LATCbits.LATC15 = 1 ^ PORTCbits.RC15;   //LED D6 zu Debug Zwecken
+//            continue;
+        }
+        
+        /* Must clear the overrun error to keep UART receiving */
+        if(U1STAbits.OERR == 1){
+            U1STAbits.OERR = 0;
+            LATCbits.LATC15 = 1 ^ PORTCbits.RC15;   //LED D6 zu Debug Zwecken
+//            continue;
+        }
+        
+        if(U1STAbits.URXDA == 1){                   //Daten im UART1 Receive Buffer
+            LATCbits.LATC15 = 1 ^ PORTCbits.RC15;   //LED D6 zu Debug Zwecken
+            Receive = U1RXREG;                      //Empfangenes UART Byte Variable zuweisen
+        }
         
         if(_T1IF==1){
         

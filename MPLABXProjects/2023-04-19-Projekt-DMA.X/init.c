@@ -191,8 +191,11 @@ void initialize_HW(void){
     U1MODEbits.PDSEL =0b00;     //8 bit, no parity
     U1MODEbits.UARTEN = 0b1;    //UART Modul enable 
     U1STAbits.UTXEN =1;         //Transmit enabled
-    U1STAbits.UTXISEL1= 0b01;   //
-    
-    
+    IEC0bits.U1RXIE = 1;             //UART1 Reciever Interrupt enable
+//    IEC0.U1TXIE = 1             //UART1 Transmit Interrupt enable
+//    U1STAbits.UTXISEL1= 0b01;   //Interrupt, wenn Zeichen übertragen wurde
+//    U1STAbits.URXISEL1= 0b00;   //Interrupt, wenn Zeichen empfangen wurde
+    U1STAbits.URXISEL = 0;
+//    _U1RXIE = 1;    //Interrupt enable
 
     }
