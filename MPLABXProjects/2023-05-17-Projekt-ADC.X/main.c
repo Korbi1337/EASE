@@ -7,6 +7,11 @@
 #include <math.h>
 //#include "Display.c"
 
+#define Key_K3 PORTBbits.RB3
+#define Key_K2 PORTDbits.RD8
+#define Key_K1 PORTBbits.RB7
+
+
 void __attribute__((interrupt(auto_psv))) _DefaultInterrupt(void){
     LATCbits.LATC15 = 1 ^ PORTCbits.RC15;     //Default: LED D5 blinkt
 }
@@ -18,16 +23,20 @@ _T2IF=0; //reset Interrupt flag
 while(DMACH0bits.CHREQ);*/
 }
 
+
 void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
-    
+    //3V = 4096 1V = 1365, 1mV =1.365
+    uint32_t x;
     _AD1IF=0;
-    
+    ADL0CONLbits.SAMP=1;
     res = ADRES0;
+    x= res;
+    x=(x*1000)/1365;
+    res=x;
     
-    ADL1CONLbits.SAMP=0;
-   
-    
+
 }  
+
 
 
 void __attribute__((interrupt(auto_psv))) _T4Interrupt(void){   
@@ -37,26 +46,27 @@ void __attribute__((interrupt(auto_psv))) _T4Interrupt(void){
 void __attribute__((interrupt(auto_psv))) _CNInterrupt(void){       //change notification Interrupt 
         
     key_event=1;
-        if(PORTBbits.RB3==0){           //Taster K3
+        if(Key_K3==0){           //Taster K3
             SendenFlag=1;
             delaytime4 = timer4ms; 
         }
-        if(PORTDbits.RD8==0){           //Taster K2
+        if(Key_K2==0){           //Taster K2 - Messung von In1
            delaytime4 = timer4ms;
+           ADTBL0bits.ADCH=0b0000110;       //CH: IN1
+           ADL0CONLbits.SAMP=0;
         }
-        if(PORTBbits.RB7==0){           ///Taster K1
+        if(Key_K1==0){           ///Taster K1 - Messung von Vbat/2
            delaytime4 = timer4ms;
+           ADTBL0bits.ADCH=0b0000001;      //Ch1: VBAT/2
+           ADL0CONLbits.SAMP=0;
         }
         _CNIF=0;
     }
 
 void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void){   
-    
-    IFS0bits.U1RXIF = 0;    //Reset Interrupt Flag
-        
-        
-            Display=U1RXREG;
-            Print4Digits_LCD(Display);
+
+    IFS0bits.U1RXIF = 0;    //Reset Interrupt Flag   
+    Display=U1RXREG;
            /* i++;
             if(i>3){
                 Display= (uint16_t)(receive_num[0])*1000;
@@ -65,8 +75,6 @@ void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void){
                 Display += (uint16_t)(receive_num[3]);
                 Print4Digits_LCD(Display); //Update Display
                 i=0;*/
-                                   
-        
 }
 
 
@@ -98,11 +106,15 @@ int main(void)
                 }else if(((timer4ms-delaytime4)>entprellzeit)&&PORTBbits.RB3==1){SendenFlag = 0; key_event=0;}
             }
 
-                
+//             if(_ADBUSY==1){
+//                 LATCbits.LATC12 = 1;
+//             }else{LATCbits.LATC12 = 1;}   
+//        
+        
             if(U1STAbits.OERR == 1){
                     
                 U1STAbits.OERR = 0;    
-                }
+            }
         
             if(U1STAbits.FERR == 1){
                 U1STAbits.FERR = 0;

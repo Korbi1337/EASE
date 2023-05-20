@@ -65,7 +65,8 @@ void initialize_HW(void){
     ANSBbits.ANSB3 = 0;
     ANSBbits.ANSB12 = 0;                    //Audioausgang
     ANSFbits.ANSF5 = 0;                     //Bluetooth Pin 
-    
+    ANSBbits.ANSB1= 1;                      //ADC Eingang Analog :Vbat/2
+    ANSBbits.ANSB6=1;                       //ADC Eingang Analog: IN1
     
 // 2. Digital Input / Output:
 	TRISBbits.TRISB2 = 0;                  // "ON" = output
@@ -75,7 +76,8 @@ void initialize_HW(void){
     TRISDbits.TRISD8 =1;                   //Input K2
     TRISBbits.TRISB3 =1;                   //Input K3
     TRISBbits.TRISB12 = 0;                  //Audioausgang output
-    
+    TRISBbits.TRISB1 =1;                    //Input Vbat/2
+    TRISBbits.TRISB6=1;                     //Input IN1
 // 3. Output level on digital pins:
 	LATBbits.LATB2 = 0;                    //Aus
     LATCbits.LATC12 = 0;        
@@ -94,7 +96,7 @@ void initialize_HW(void){
     
     _CNIF=0;                                 //Interrupt flag normalerweise 0
     _CNIE=1;                                 //Interrupt enable
-    CNEN2bits.CN25IE = 1;                  //Interrupt Taster K1
+    CNEN2bits.CN25IE = 1;                    //Interrupt Taster K1
     CNEN4bits.CN53IE = 1;                    //Interrupt Taster K2
     CNEN1bits.CN5IE = 1;                     //Interrupt Taster K3
 
@@ -158,76 +160,103 @@ void initialize_HW(void){
     
     
     ///DAC 
-    DAC1CONbits.DACEN=1;        //DAC Enabled
-    DAC1CONbits.DACSIDL=1;      //DAC Stop in Idle mode
-    DAC1CONbits.DACSLP=0;       //DAC disable during sleep mode 
-    DAC1CONbits.DACFM=0;        //DAC Data Format select bit justification
-    DAC1CONbits.DACTRIG=0;      //Trigger Input Enable bit
-    DAC1CONbits.DACREF=0b10;    //DAC reference AVDD
+    DAC1CONbits.DACEN=1;            //DAC Enabled
+    DAC1CONbits.DACSIDL=1;          //DAC Stop in Idle mode
+    DAC1CONbits.DACSLP=0;           //DAC disable during sleep mode 
+    DAC1CONbits.DACFM=0;            //DAC Data Format select bit justification
+    DAC1CONbits.DACTRIG=0;          //Trigger Input Enable bit
+    DAC1CONbits.DACREF=0b10;        //DAC reference AVDD
 
     //Audioausgang
     _RB12=1;
     
     //DMA
-    DMACONbits.DMAEN =0b1;      //DMA Enable
-    DMACONbits.PRSSEL=0b0;      //fixed priority scheme selection
-    DMACH0bits.CHEN=0b0;        //Channel 0 deaktiviert
-    DMACH0bits.NULLW =0b0;      //kein Dummywert /nullwrite
-    DMACH0bits.RELOAD = 0b1;    //DMASRCn, ST und CNT reloaden
-    DMACH0bits.SAMODE=0b01;     //DMASRC is inkremented based on SIZE after transfer completion
-    DMACH0bits.SIZE =0b0;       //Datengröße: word/16-bit
-    DMACH0bits.TRMODE= 0b01;    // repeated oneshot mode
+    DMACONbits.DMAEN =0b1;          //DMA Enable
+    DMACONbits.PRSSEL=0b0;          //fixed priority scheme selection
+    DMACH0bits.CHEN=0b0;            //Channel 0 deaktiviert
+    DMACH0bits.NULLW =0b0;          //kein Dummywert /nullwrite
+    DMACH0bits.RELOAD = 0b1;        //DMASRCn, ST und CNT reloaden
+    DMACH0bits.SAMODE=0b01;         //DMASRC is inkremented based on SIZE after transfer completion
+    DMACH0bits.SIZE =0b0;           //Datengröße: word/16-bit
+    DMACH0bits.TRMODE= 0b01;        // repeated oneshot mode
             
     //UART
     __builtin_write_OSCCONL(OSCCON & 0xbf);
     
-    RPINR18bits.U1RXR=17;       //RP17 als Rx Uart1 
-    RPOR7bits.RP14R=3;          //RP14 als U1TX UART1 Transmit
+    RPINR18bits.U1RXR=17;           //RP17 als Rx Uart1 
+    RPOR7bits.RP14R=3;              //RP14 als U1TX UART1 Transmit
 
     __builtin_write_OSCCONL(OSCCON | 0x40);
 
     
     U1BRG=32;
-    U1MODEbits.BRGH =1;         //standard Speed mode
-    U1MODEbits.STSEL =0b0;      //1 Stopbit
-    U1MODEbits.PDSEL =0b00;     //8 bit, no parity
-    U1MODEbits.UARTEN = 0b1;    //UART Modul enable 
-    U1STAbits.URXISEL = 0b10;   //Interrupt, wenn Empfangspuffer 4 Zeichen enthaelt
+    U1MODEbits.BRGH =1;             //standard Speed mode
+    U1MODEbits.STSEL =0b0;          //1 Stopbit
+    U1MODEbits.PDSEL =0b00;         //8 bit, no parity
+    U1MODEbits.UARTEN = 0b1;        //UART Modul enable 
+    U1STAbits.URXISEL = 0b10;       //Interrupt, wenn Empfangspuffer 4 Zeichen enthaelt
     U1STAbits.UTXISEL0=0;
     U1STAbits.UTXISEL1=1;
-    U1STAbits.UTXEN =1;         //Transmit enabled
+    U1STAbits.UTXEN =1;             //Transmit enabled
     
-    IEC0bits.U1RXIE = 1;        //UART1 Reciever Interrupt enable
+    IEC0bits.U1RXIE = 1;            //UART1 Reciever Interrupt enable
     
-    //ADC
     
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////ADC///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////
+    
+   
     //ANS Pins Konfigurieren Fehlt
     ADCON1bits.PWRLVL=1;            //Full-Power Mode, um 8 MHZ zu ermöglichen
-    ADCON1bits.FORM=0;              //Standardwert 0, Data Output Format bits
-    ADCON1bits.PUMPEN=0;            //Standardwert 0, Charge Pump Enable bit
     
-        
     ADCON2bits.BUFORG =1;           //indexed buffer: ADTBLn conversion result is stored in ADRESn
-    ADCON3bits.ADCS=1;
+    ADCON2bits.PVCFG= 0;            //AVDD als Reference
+    ADCON2bits.NVCFG= 0;            //AVSS als adref-
+    
     ADCON3bits.ADRC=0;              //Conversion Clock derived from system Clock
-    
-    //ADSTATL?? 
-    
-    ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
-    
-    _AD1IE=1;                       //ADC Interrupt enable
-    ADCON1bits.ADON =1;
-            
-    while(!ADSTATHbits.ADREADY);
- 
-    ADCON1bits.ADCAL =1;            //Initiates Internal Analog calibration - Evtl in die Main! oder nicht
+    ADCON3bits.ADCS=0b0000001;      //AD Conversion prescaler
+    ADCON3bits.SLEN0=1;             //A/D Sample List 0 Enable 
+    ADCON1bits.ADON =1;             //Enable ADC
+  
+    while(ADSTATHbits.ADREADY==0);
+
+////5. Sample List settings
 
     ADL0CONHbits.SAMC=0b00000;      //0.5 TAD Sample/Hold Charge Time
-    ADL0CONLbits.SLEN = 1;          //Standardwert 0, A/D Trigger Control Enable bit Disabled
-    ADL0CONLbits.SLSIZE = 00000;    //Sample List Size Select
-    ADL0CONLbits.SLTSRC=0;          //Trigger Source Select bits
+    ADL0CONHbits.ASEN=0;            //autosample disabled
+    ADL0CONHbits.SLINT=0b01;        //Interrupt nach jedem sample
+    
+    //ADL0CONLbits.SLEN =1;           
+    ADL0CONLbits.SLSIZE = 00000;    //Sample List Size Select :1 Table
+    ADL0CONLbits.SLTSRC=0;          //Trigger Source Select bits: Manuell wenn SAMP cleared
     ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
     ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
 
-    ADCON3bits.SLEN0=1;             //AD Sample List 0 enabled - ADL0CONL defines trigger 
+    
+    ADTBL0bits.DIFF=0;              //Single-ended messung
+    ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
+    ADTBL0bits.ADCH=0b0000001;      //Ch1: VBAT/2
+
+    //ADL0STAT.ADLIF=0;             //Notwendig?? An interrupt has occured in Sample List n
+
+    _AD1IF=0;
+    _SL0IF=0;
+    _AD1IE=1;                       //ADC Interrupt enable
+    _AD1IF=0;
+    
+    ADL0CONLbits.SLEN = 1;          //trigger causes sampling
+        
+
+ 
+    ADCON1bits.ADCAL =1;            //Initiates Internal Analog calibration - Evtl in die Main! oder nicht
+    
+    while(ADSTATHbits.ADREADY==0);
+    ADL0CONLbits.SAMP=0;            //close sample switch
+    
+
+    
+    
     }

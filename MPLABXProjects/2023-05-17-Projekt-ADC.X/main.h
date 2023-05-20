@@ -1,7 +1,7 @@
 // header file for main.c
 
 void initialize_HW(void);	// initialisation procedure
-
+ void Print4Digits_LCD(uint16_t);
 
 
 void __attribute__((interrupt(auto_psv))) _DefaultInterrupt(void);
@@ -9,7 +9,7 @@ void __attribute__((interrupt(auto_psv))) _T2Interrupt(void);
 void __attribute__((interrupt(auto_psv))) _CNInterrupt(void);
 void __attribute__((interrupt(auto_psv))) _T4Interrupt(void);
 void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void);
-
+void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void);
 
 
 volatile uint16_t timer4ms = 0;       //Globale Zählervariable Systemzeit
