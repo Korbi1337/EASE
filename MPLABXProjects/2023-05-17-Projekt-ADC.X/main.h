@@ -19,6 +19,7 @@ volatile uint16_t SendenFlag=0;
 volatile uint8_t receive_num[4];
 volatile uint16_t Display = 123; //Angezeiter Wert
 volatile uint8_t i =0;
+volatile uint16_t res=0;
 
 uint16_t entprellzeit=4;
 

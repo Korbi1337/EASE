@@ -18,6 +18,18 @@ _T2IF=0; //reset Interrupt flag
 while(DMACH0bits.CHREQ);*/
 }
 
+void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
+    
+    _AD1IF=0;
+    
+    res = ADRES0;
+    
+    ADL1CONLbits.SAMP=0;
+   
+    
+}  
+
+
 void __attribute__((interrupt(auto_psv))) _T4Interrupt(void){   
     _T4IF=0;
     timer4ms++;
@@ -73,6 +85,8 @@ int main(void)
    
 	while(1){
         
+
+        Print4Digits_LCD(res);
             if(SendenFlag==1){
                 if(((timer4ms-delaytime4)>entprellzeit)&&PORTBbits.RB3==0)  //nach der entprellzeit wird der Ausgang beschrieben
                    

@@ -7,7 +7,7 @@ Command:
   -p24FJ128GC006 \
   --mdfp=C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16 \
   -o \
-  dist/default/production/2023-05-14-Projekt-Bluetooth_UART.X.production.elf \
+  dist/default/production/2023-05-17-Projekt-ADC.X.production.elf \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/.. \
   -LC:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16/bin/../support/PIC24F/gld \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../lib \
@@ -34,7 +34,7 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/production/2023-05-14-Projekt-Bluetooth&UART.X.production.map \
+  -Map=dist/default/production/2023-05-17-Projekt-ADC.X.production.map \
   --report-mem \
   --memorysummary \
   dist/default/production/memoryfile.xml \
@@ -66,24 +66,23 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x1fa           0x2f7  (759)
-.text                        0x3fa               0x4aa           0x6ff  (1791)
-.dinit                       0x8a4               0x174           0x22e  (558)
-.text                        0xa18               0x162           0x213  (531)
+.text                        0x200               0x21c           0x32a  (810)
+.text                        0x41c               0x658           0x984  (2436)
+.dinit                       0xa74               0x174           0x22e  (558)
 
-                 Total "program" memory used (bytes):          0xe37  (3639) 2%
+                 Total "program" memory used (bytes):          0xedc  (3804) 2%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0             0xa  (10)
-.ndata                       0x80a                   0             0x4  (4)
-.bss                         0x80e                   0           0x204  (516)
-.data                        0xa12                   0           0x200  (512)
+.nbss                        0x800                   0             0xc  (12)
+.ndata                       0x80c                   0             0x4  (4)
+.bss                         0x810                   0           0x204  (516)
+.data                        0xa14                   0           0x200  (512)
 
-                 Total "data" memory used (bytes):          0x412  (1042) 12%
+                 Total "data" memory used (bytes):          0x414  (1044) 12%
 
 
 Dynamic Memory Usage
@@ -91,9 +90,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0xc12                              0x1bee  (7150)
+stack                        0xc14                              0x1bec  (7148)
 
-                 Maximum dynamic memory (bytes):         0x1bee  (7150)
+                 Maximum dynamic memory (bytes):         0x1bec  (7148)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -105,23 +104,25 @@ External Symbols in Data Memory (by address):
                     0x0804                  _key_event
                     0x0806                  _SendenFlag
                     0x0808                  _i
-                    0x080a                  _Display
-                    0x080c                  _entprellzeit
-                    0x080e                  _receive_num
-                    0x0812                  _Array2
-                    0x0a12                  _Array
+                    0x080a                  _res
+                    0x080c                  _Display
+                    0x080e                  _entprellzeit
+                    0x0810                  _receive_num
+                    0x0814                  _Array2
+                    0x0a14                  _Array
 
 External Symbols in Data Memory (by name):
 
-                    0x0a12                  _Array
-                    0x0812                  _Array2
-                    0x080a                  _Display
+                    0x0a14                  _Array
+                    0x0814                  _Array2
+                    0x080c                  _Display
                     0x0806                  _SendenFlag
                     0x0802                  _delaytime4
-                    0x080c                  _entprellzeit
+                    0x080e                  _entprellzeit
                     0x0808                  _i
                     0x0804                  _key_event
-                    0x080e                  _receive_num
+                    0x0810                  _receive_num
+                    0x080a                  _res
                     0x0800                  _timer4ms
 
 External Symbols in Program Memory (by address):
@@ -132,29 +133,31 @@ External Symbols in Program Memory (by address):
                   0x000252                  __data_init_da
                   0x000308                  __DefaultInterrupt
                   0x000338                  __T2Interrupt
-                  0x000354                  __T4Interrupt
-                  0x000376                  __CNInterrupt
-                  0x0003c2                  __U1RXInterrupt
-                  0x0003fa                  _main
-                  0x00048e                  _PrintDigit_LCD
-                  0x0007d2                  _Print4Digits_LCD
-                  0x000a18                  _initialize_HW
+                  0x000354                  __ADC1Interrupt
+                  0x000376                  __T4Interrupt
+                  0x000398                  __CNInterrupt
+                  0x0003e4                  __U1RXInterrupt
+                  0x00041c                  _main
+                  0x0004b6                  _PrintDigit_LCD
+                  0x0007fa                  _Print4Digits_LCD
+                  0x0008cc                  _initialize_HW
 
 External Symbols in Program Memory (by name):
 
-                  0x0007d2                  _Print4Digits_LCD
-                  0x00048e                  _PrintDigit_LCD
-                  0x000376                  __CNInterrupt
+                  0x0007fa                  _Print4Digits_LCD
+                  0x0004b6                  _PrintDigit_LCD
+                  0x000354                  __ADC1Interrupt
+                  0x000398                  __CNInterrupt
                   0x000308                  __DefaultInterrupt
                   0x000338                  __T2Interrupt
-                  0x000354                  __T4Interrupt
-                  0x0003c2                  __U1RXInterrupt
+                  0x000376                  __T4Interrupt
+                  0x0003e4                  __U1RXInterrupt
                   0x000252                  __data_init
                   0x000252                  __data_init_da
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x000a18                  _initialize_HW
-                  0x0003fa                  _main
+                  0x0008cc                  _initialize_HW
+                  0x00041c                  _main
 
 Memory Configuration
 
@@ -195,7 +198,7 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x1fa
+.text             0x000200        0x21c
  *(.init)
  .init            0x000200         0x4c c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
                   0x000200                  __resetPRI
@@ -208,20 +211,21 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
  *(.handle)
  .handle          0x000304          0x4 jump_table
  *(.isr*)
- .isr.text        0x000308         0xf0 build/default/production/main.o
+ .isr.text        0x000308        0x112 build/default/production/main.o
                   0x000308                  __DefaultInterrupt
                   0x000338                  __T2Interrupt
-                  0x000354                  __T4Interrupt
-                  0x000376                  __CNInterrupt
-                  0x0003c2                  __U1RXInterrupt
+                  0x000354                  __ADC1Interrupt
+                  0x000376                  __T4Interrupt
+                  0x000398                  __CNInterrupt
+                  0x0003e4                  __U1RXInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x0003f8          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
-                  0x0003f8                  __crt_start_mode
-                  0x0003f8                  __crt_start_mode_normal
+                  0x00041a          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
+                  0x00041a                  __crt_start_mode
+                  0x00041a                  __crt_start_mode_normal
 
 usercode
  *(usercode)
@@ -241,10 +245,10 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x4cbb
+.debug_info       0x000000       0x58e8
  *(.debug_info)
- .debug_info      0x000000       0x3424 build/default/production/init.o
- .debug_info      0x003424       0x1897 build/default/production/main.o
+ .debug_info      0x000000       0x3e11 build/default/production/init.o
+ .debug_info      0x003e11       0x1ad7 build/default/production/main.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x294
@@ -252,20 +256,20 @@ __CONFIG1
  .debug_abbrev    0x000000         0xfe build/default/production/init.o
  .debug_abbrev    0x0000fe        0x196 build/default/production/main.o
 
-.debug_line       0x000000        0x301
+.debug_line       0x000000        0x31a
  *(.debug_line)
- .debug_line      0x000000        0x160 build/default/production/init.o
- .debug_line      0x000160        0x1a1 build/default/production/main.o
+ .debug_line      0x000000        0x172 build/default/production/init.o
+ .debug_line      0x000172        0x1a8 build/default/production/main.o
 
-.debug_frame      0x000000        0x178
+.debug_frame      0x000000        0x1a2
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/default/production/init.o
- .debug_frame     0x00002e        0x14a build/default/production/main.o
+ .debug_frame     0x00002e        0x174 build/default/production/main.o
 
-.debug_str        0x000000        0x27e
+.debug_str        0x000000        0x2dd
  *(.debug_str)
- .debug_str       0x000000        0x18a build/default/production/init.o
- .debug_str       0x00018a         0xf4 build/default/production/main.o
+ .debug_str       0x000000        0x1dc build/default/production/init.o
+ .debug_str       0x0001dc        0x101 build/default/production/main.o
 
 .debug_loc
  *(.debug_loc)
@@ -274,12 +278,12 @@ __CONFIG1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x144
+                  0x000000        0x15f
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x24 build/default/production/init.o
  .debug_pubnames
-                  0x000024        0x120 build/default/production/main.o
+                  0x000024        0x13b build/default/production/main.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -2004,49 +2008,50 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a
 LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-elf.a
 END GROUP
-OUTPUT(dist/default/production/2023-05-14-Projekt-Bluetooth_UART.X.production.elf elf32-pic30)
+OUTPUT(dist/default/production/2023-05-17-Projekt-ADC.X.production.elf elf32-pic30)
 LOAD jump_table
 LOAD data_init
 
 .debug_pubtypes
-                  0x000030        0x6b1
+                  0x000030        0x7c7
  .debug_pubtypes
-                  0x000030        0x487 build/default/production/init.o
+                  0x000030        0x578 build/default/production/init.o
  .debug_pubtypes
-                  0x0004b7        0x22a build/default/production/main.o
+                  0x0005a8        0x24f build/default/production/main.o
 
 __c30_signature
-                  0x0006e1         0x18
+                  0x0007f7         0x18
  __c30_signature
-                  0x0006e1          0x6 build/default/production/init.o
+                  0x0007f7          0x6 build/default/production/init.o
  __c30_signature
-                  0x0006e7          0x6 build/default/production/main.o
+                  0x0007fd          0x6 build/default/production/main.o
  __c30_signature
-                  0x0006ed          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
+                  0x000803          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
  __c30_signature
-                  0x0006f3          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
+                  0x000809          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
 
-.nbss               0x0800          0xa
- .nbss              0x0800          0xa build/default/production/main.o
+.nbss               0x0800          0xc
+ .nbss              0x0800          0xc build/default/production/main.o
                     0x0800                  _timer4ms
                     0x0802                  _delaytime4
                     0x0804                  _key_event
                     0x0806                  _SendenFlag
                     0x0808                  _i
+                    0x080a                  _res
 
-.ndata              0x080a          0x4
- .ndata             0x080a          0x4 build/default/production/main.o
-                    0x080a                  _Display
-                    0x080c                  _entprellzeit
+.ndata              0x080c          0x4
+ .ndata             0x080c          0x4 build/default/production/main.o
+                    0x080c                  _Display
+                    0x080e                  _entprellzeit
 
-.bss                0x080e        0x204
- .bss               0x080e        0x204 build/default/production/main.o
-                    0x080e                  _receive_num
-                    0x0812                  _Array2
+.bss                0x0810        0x204
+ .bss               0x0810        0x204 build/default/production/main.o
+                    0x0810                  _receive_num
+                    0x0814                  _Array2
 
-.data               0x0a12        0x200
- .data              0x0a12        0x200 build/default/production/main.o
-                    0x0a12                  _Array
+.data               0x0a14        0x200
+ .data              0x0a14        0x200 build/default/production/main.o
+                    0x0a14                  _Array
 
 .config_JTAGEN    0x0157fe          0x2
  .config_JTAGEN
@@ -2068,6 +2073,11 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/production/main.o
 
+.ivt._ADC1Interrupt
+                  0x00002e          0x2
+ .ivt._ADC1Interrupt
+                  0x00002e          0x2 build/default/production/main.o
+
 .ivt._T4Interrupt
                   0x00004a          0x2
  .ivt._T4Interrupt
@@ -2083,15 +2093,13 @@ __c30_signature
  .ivt._U1RXInterrupt
                   0x00002a          0x2 build/default/production/main.o
 
-.text             0x0003fa        0x4aa
- .text            0x0003fa        0x4aa build/default/production/main.o
-                  0x0003fa                  _main
-                  0x00048e                  _PrintDigit_LCD
-                  0x0007d2                  _Print4Digits_LCD
+.text             0x00041c        0x658
+ .text            0x00041c        0x4b0 build/default/production/main.o
+                  0x00041c                  _main
+                  0x0004b6                  _PrintDigit_LCD
+                  0x0007fa                  _Print4Digits_LCD
+ .text            0x0008cc        0x1a8 build/default/production/init.o
+                  0x0008cc                  _initialize_HW
 
-.dinit            0x0008a4        0x174
- .dinit           0x0008a4        0x174 data_init
-
-.text             0x000a18        0x162
- .text            0x000a18        0x162 build/default/production/init.o
-                  0x000a18                  _initialize_HW
+.dinit            0x000a74        0x174
+ .dinit           0x000a74        0x174 data_init

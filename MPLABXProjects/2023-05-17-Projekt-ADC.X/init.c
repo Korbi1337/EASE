@@ -64,7 +64,8 @@ void initialize_HW(void){
     ANSDbits.ANSD8 =0;
     ANSBbits.ANSB3 = 0;
     ANSBbits.ANSB12 = 0;                    //Audioausgang
-    ANSFbits.ANSF5 = 0;
+    ANSFbits.ANSF5 = 0;                     //Bluetooth Pin 
+    
     
 // 2. Digital Input / Output:
 	TRISBbits.TRISB2 = 0;                  // "ON" = output
@@ -198,7 +199,35 @@ void initialize_HW(void){
     
     IEC0bits.U1RXIE = 1;        //UART1 Reciever Interrupt enable
     
+    //ADC
     
+    //ANS Pins Konfigurieren Fehlt
+    ADCON1bits.PWRLVL=1;            //Full-Power Mode, um 8 MHZ zu ermöglichen
+    ADCON1bits.FORM=0;              //Standardwert 0, Data Output Format bits
+    ADCON1bits.PUMPEN=0;            //Standardwert 0, Charge Pump Enable bit
+    
+        
+    ADCON2bits.BUFORG =1;           //indexed buffer: ADTBLn conversion result is stored in ADRESn
+    ADCON3bits.ADCS=1;
+    ADCON3bits.ADRC=0;              //Conversion Clock derived from system Clock
+    
+    //ADSTATL?? 
+    
+    ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
+    
+    _AD1IE=1;                       //ADC Interrupt enable
+    ADCON1bits.ADON =1;
+            
+    while(!ADSTATHbits.ADREADY);
+ 
+    ADCON1bits.ADCAL =1;            //Initiates Internal Analog calibration - Evtl in die Main! oder nicht
 
+    ADL0CONHbits.SAMC=0b00000;      //0.5 TAD Sample/Hold Charge Time
+    ADL0CONLbits.SLEN = 1;          //Standardwert 0, A/D Trigger Control Enable bit Disabled
+    ADL0CONLbits.SLSIZE = 00000;    //Sample List Size Select
+    ADL0CONLbits.SLTSRC=0;          //Trigger Source Select bits
+    ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
+    ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
 
+    ADCON3bits.SLEN0=1;             //AD Sample List 0 enabled - ADL0CONL defines trigger 
     }
