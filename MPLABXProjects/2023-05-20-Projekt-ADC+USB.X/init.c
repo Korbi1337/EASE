@@ -67,6 +67,7 @@ void initialize_HW(void){
     ANSFbits.ANSF5 = 0;                     //Bluetooth Pin 
     ANSBbits.ANSB1= 1;                      //ADC Eingang Analog :Vbat/2
     ANSBbits.ANSB6=1;                       //ADC Eingang Analog: IN1
+
     
 // 2. Digital Input / Output:
 	TRISBbits.TRISB2 = 0;                  // "ON" = output
@@ -78,6 +79,8 @@ void initialize_HW(void){
     TRISBbits.TRISB12 = 0;                  //Audioausgang output
     TRISBbits.TRISB1 =1;                    //Input Vbat/2
     TRISBbits.TRISB6=1;                     //Input IN1
+    
+    
 // 3. Output level on digital pins:
 	LATBbits.LATB2 = 0;                    //Aus
     LATCbits.LATC12 = 0;        
@@ -222,19 +225,16 @@ void initialize_HW(void){
     ADCON1bits.ADON =1;             //Enable ADC
   
     while(ADSTATHbits.ADREADY==0);
-
 ////5. Sample List settings
     //List0
     ADL0CONHbits.SAMC=0b00000;      //0.5 TAD Sample/Hold Charge Time
     ADL0CONHbits.ASEN=0;            //autosample disabled
     ADL0CONHbits.SLINT=0b01;        //Interrupt nach jedem sample
     ADL0CONLbits.SLSIZE = 00001;    //Sample List Size Select :2 Tables
-    //alt ADL0CONLbits.SLTSRC=0;    //Trigger Source Select bits: Manuell wenn SAMP cleared
-    ADL0CONLbits.SLTSRC=0b00101;    //00101: Timer 2 trigger. 
+    ADL0CONLbits.SLTSRC=0b00101;    //Internal periodic trigger event
     ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
     ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
     
-
     //Table 0: Vbat/2
     ADTBL0bits.DIFF=0;              //Single-ended messung
     ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
@@ -244,21 +244,43 @@ void initialize_HW(void){
     ADTBL1bits.UCTMU = 0b1;         //Charge time measurement unit
     ADTBL1bits.ADCH=0b0000110;      //table 2: IN
 
-    
-
-   
     _SL0IF=0;
     _AD1IE=1;                       //ADC Interrupt enable
     _AD1IF=0;
     
     ADL0CONLbits.SLEN = 1;          //trigger causes sampling
-        
     ADCON1bits.ADCAL =1;            //Initiates Internal Analog calibration - Evtl in die Main! oder nicht
     
     while(ADSTATHbits.ADREADY==0);
     ADL0CONLbits.SAMP=0;            //close sample switch
     
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////USB///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    U1CONbits.PPBRST=0;             //pingpong buffer clear
+    U1IE=0;
+    U1EIE=0;                        //interrupts disabled
+    U1IR=0xFF;
+    U1EIR=0xFF;                     //interrupt flags clearen
+    //verify Vbus is present
+    U1CONbits.USBEN =1;             //USB enable
+    U1CONbits.USBRST=0;             //USB reset. minimum 50ms.
+
+    
+    U1CONbits.USBEN =0;    
+    U1OTGCONbits.OTGEN=1;           //otg enable
+    U1EP0bits.EPRXEN=1;             //enable endpoint 0 buffer
+    U1EP0bits.EPHSHK =1;            //enable endpoint 0 buffer
+    U1PWRCbits.USBPWR=1;            //USB module Powerup
+    U1OTGCONbits.DPPULUP =1;        //signal an attach
+    U1CONbits.USBEN =1;
+
+        
+    U1ADDRbits.DEVADDR = 0b0000011;  //Adresse: 3 (?)
+    U1CNFG1bits.PPB=0b01;               //ping pong enabled for endpoint 0
+    
+    
     
     
     }

@@ -100,12 +100,9 @@ int main(void)
 	while(1){
         
 
-        if(Displayflag==1)
-        {
-  
-        Print4Digits_LCD(res);
-        
-        }else{Print4Digits_LCD(res2);}
+        if(Displayflag==1){
+            
+        Print4Digits_LCD(res);}else{Print4Digits_LCD(res2);}
         
         
             if(SendenFlag==1){
@@ -119,7 +116,10 @@ int main(void)
                 }else if(((timer4ms-delaytime4)>entprellzeit)&&PORTBbits.RB3==1){SendenFlag = 0; key_event=0;}
             }
 
-   
+//             if(_ADBUSY==1){
+//                 LATCbits.LATC12 = 1;
+//             }else{LATCbits.LATC12 = 1;}   
+//        
         
             if(U1STAbits.OERR == 1){
                     
