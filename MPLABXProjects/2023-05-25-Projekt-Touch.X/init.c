@@ -106,8 +106,10 @@ void initialize_HW(void){
     //Pullup/Pulldown
     CNPU1bits.CN5PUE = 1;      // Pull up für Taster K3
     
- //7. Timers
-    //Timer1
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////Timer/////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     T1CONbits.TON = 1;          //Timer an
     T1CONbits.TCKPS = 0b11;     //Prescaler clock 0b11 = 1:256
     T1CONbits.TCS = 0;          //Clock Source Select Bit: 0 = internal
@@ -115,7 +117,7 @@ void initialize_HW(void){
     T1CONbits.TGATE=0;          //TGATE: gated Time accumulation
     //Timer2
     T2CONbits.TON = 1;          //Timer an
-    T2CONbits.TCKPS = 0b10;     //Prescaler clock 1:64
+    T2CONbits.TCKPS = 0b10;     //Prescaler clock 1:64 
     T2CONbits.TCS = 0;          //Clock Source Select Bit: 0= internal
     //Timer4
     T4CONbits.TON = 1;          //Timer an
@@ -127,7 +129,9 @@ void initialize_HW(void){
     IEC0bits.T2IE = 1;
     IEC1bits.T4IE = 1;
     
-    //LCD Panel
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////LCD///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
     LCDCONbits.LMUX=0b011;      //1/4 MUX
     LCDCONbits.LCDEN=1;         //LCD Driver Enable bit
     LCDCONbits.CS=0b00;         //Clock source select: 00-frc
@@ -162,7 +166,10 @@ void initialize_HW(void){
     
     
     
-    ///DAC 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////DAC///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     DAC1CONbits.DACEN=1;            //DAC Enabled
     DAC1CONbits.DACSIDL=1;          //DAC Stop in Idle mode
     DAC1CONbits.DACSLP=0;           //DAC disable during sleep mode 
@@ -173,7 +180,11 @@ void initialize_HW(void){
     //Audioausgang
     _RB12=1;
     
-    //DMA
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////DMA///////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     DMACONbits.DMAEN =0b1;          //DMA Enable
     DMACONbits.PRSSEL=0b0;          //fixed priority scheme selection
     DMACH0bits.CHEN=0b0;            //Channel 0 deaktiviert
@@ -183,7 +194,11 @@ void initialize_HW(void){
     DMACH0bits.SIZE =0b0;           //Datengröße: word/16-bit
     DMACH0bits.TRMODE= 0b01;        // repeated oneshot mode
             
-    //UART
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////UART//////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     __builtin_write_OSCCONL(OSCCON & 0xbf);
     
     RPINR18bits.U1RXR=17;           //RP17 als Rx Uart1 
@@ -235,19 +250,15 @@ void initialize_HW(void){
     ADL0CONHbits.SAMC=0b00000;      //0.5 TAD Sample/Hold Charge Time
     ADL0CONHbits.ASEN=0;            //autosample disabled
     ADL0CONHbits.SLINT=0b01;        //Interrupt nach jedem sample
-    ADL0CONLbits.SLSIZE = 00001;    //Sample List Size Select :2 Tables
-    ADL0CONLbits.SLTSRC=0b00101;    //trigger timer2 trigger event
+    ADL0CONLbits.SLSIZE = 00000;    //Sample List Size Select :1 Tables
+    ADL0CONLbits.SLTSRC=0b01000;    //trigger output compare - unsicher
     ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
     ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
     
     //Table 0: Vbat/2
     ADTBL0bits.DIFF=0;              //Single-ended messung
     ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
-    ADTBL0bits.ADCH=0b0000001;      //Ch1: VBAT/2
-    //Table: IN1
-    ADTBL1bits.DIFF=0;              //Single-ended messung
-    ADTBL1bits.UCTMU = 0b1;         //Charge time measurement unit
-    ADTBL1bits.ADCH=0b0000110;      //table 2: IN
+    ADTBL0bits.ADCH=0b1110111;      //Ch1: CTMU
 
     _SL0IF=0;
     _AD1IE=1;                       //ADC Interrupt enable
@@ -260,9 +271,52 @@ void initialize_HW(void){
     ADL0CONLbits.SAMP=0;            //close sample switch
     
 
+    
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////CTMU//////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    CTMUCON1bits.CTMUEN = 1;
+    
+    OC1CON1bits.OCTSEL =000;
+    
+    
+    //gleichzeitig, wenn möglich:
+    CTMUCON2=CTMUCON2|(0b11<<8);                    //EDG1STAT bit 7, EDG2STAT bit 8
+    CTMUCON2bits.EDG1MOD=1;                         //Edge 1 Edge-Sensitive Select bit
+    CTMUCON2bits.EDG2MOD=1;                         //Edge 2 Edge-Sensitive select bit
+    CTMUCON2bits.EDG1POL=1;                         //Edge 1 polarity select bit
+    CTMUCON2bits.EDG2POL=1;                         //Edge 2 polarity select bit
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+            
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////USB///////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     /*U1CONbits.PPBRST=0;             //pingpong buffer clear
     U1IE=0;
     U1EIE=0;                        //interrupts disabled

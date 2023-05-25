@@ -3,6 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
+            <name>2023-05-25-Projekt-Touch</name>
             <name>2023-05-22-Projekt-ADC-Bluetooth</name>
             <name>2023-05-20-Projekt-ADC-2</name>
             <name>2023-05-17-Projekt-ADC</name>

@@ -16,11 +16,14 @@ void __attribute__((interrupt(auto_psv))) _DefaultInterrupt(void){
     LATCbits.LATC15 = 1 ^ PORTCbits.RC15;     //Default: LED D5 blinkt
 }
 
-void __attribute__((interrupt(auto_psv))) _T2Interrupt(void) //Interrupt Timer: 22050 Hz 
+void __attribute__((interrupt(auto_psv))) _T2Interrupt(void) //Interrupt Timer: 100 Hz 
 {
 _T2IF=0; //reset Interrupt flag 
 /*DMACH0bits.CHREQ=1;
 while(DMACH0bits.CHREQ);*/
+
+_IDISSEN=1;
+
 }
 
 
@@ -29,19 +32,11 @@ void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
     uint32_t x;
     _AD1IF=0;             //Interrupt Flag zurücksetzen
     ADL0CONLbits.SAMP=1;  //Schalter öffnen
-    res = ADRES0;         //Tabelle 0 auslesen (VBat/2)
-    res2= ADRES1;         //Tabelle 1 auslesen (In1)
-    
-                  
-
+    res = ADRES0;         //Tabelle 0 auslesen CTMU
     
     x= res;               
     x=(x*1000)/1365;
     res=x;
-     
-    x= res2;
-    x=(x*1000)/1365;
-    res2=x;
     
      
     send[2]=(uint8_t)(res>>8); 
