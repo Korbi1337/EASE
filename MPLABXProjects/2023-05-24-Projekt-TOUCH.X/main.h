@@ -22,9 +22,6 @@ volatile uint8_t Displayflag=0;
 volatile uint16_t i =0;
 volatile uint16_t res=0;            //Result table 1 ADC
 volatile uint16_t res2=0;           //Result table 2 ADC
-volatile uint8_t send[6];
-
-
 
 uint16_t entprellzeit=4;
 

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/production/2023-05-20-Projekt-ADC_USB.X.production.elf">
+  <executable name="dist/default/debug/2023-05-20-Projekt-ADC_USB.X.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>8192</length>
-      <used>1054</used>
-      <free>7138</free>
+      <used>1132</used>
+      <free>7060</free>
     </memory>
     <memory name="program">
       <units>bytes</units>

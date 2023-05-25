@@ -198,14 +198,12 @@ void initialize_HW(void){
     U1MODEbits.PDSEL =0b00;         //8 bit, no parity
     U1MODEbits.UARTEN = 0b1;        //UART Modul enable 
     U1STAbits.URXISEL = 0b10;       //Interrupt, wenn Empfangspuffer 4 Zeichen enthaelt
-    U1STAbits.UTXISEL0=0;           
+    U1STAbits.UTXISEL0=0;
     U1STAbits.UTXISEL1=1;
     U1STAbits.UTXEN =1;             //Transmit enabled
     
-    
-    
     IEC0bits.U1RXIE = 1;            //UART1 Reciever Interrupt enable
-    IEC0bits.U1TXIE=1;              //UART1 Transmit Interrupt enable
+    
     
     
     
@@ -227,8 +225,6 @@ void initialize_HW(void){
     ADCON1bits.ADON =1;             //Enable ADC
   
     while(ADSTATHbits.ADREADY==0);
-    
-    
 ////5. Sample List settings
     //List0
     ADL0CONHbits.SAMC=0b00000;      //0.5 TAD Sample/Hold Charge Time

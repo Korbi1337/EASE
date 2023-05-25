@@ -43,11 +43,6 @@ void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
     x=(x*1000)/1365;
     res2=x;
     
-    send[2]=(uint8_t)res;     
-    send[3]=(uint8_t)(res>>8);        
-    send[4]=(uint8_t)res2;   
-    send[5]=(uint8_t)(res2>>8);
-    
     ADL0CONLbits.SAMP=0;   //Schalter schließen
 
 }  
@@ -63,7 +58,6 @@ void __attribute__((interrupt(auto_psv))) _CNInterrupt(void){       //change not
     key_event=1;
         if(Key_K3==0){           //Taster K3
             SendenFlag=1;
-            _U1TXIF=1;
             delaytime4 = timer4ms; 
         }
         if(Key_K2==0){           //Taster K2 - Messung von In1
@@ -96,14 +90,10 @@ void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void){
 void __attribute__((interrupt(auto_psv))) _U1TXInterrupt(void){
     
     _U1TXIF=0;
-    if(i>5){i=0;}
-                        
-
- 
-    U1TXREG=send[i]; 
-    i++;
-    U1TXREG=send[i];
-    i++;
+    
+    
+    
+    
 } 
 
 
@@ -112,14 +102,15 @@ void __attribute__((interrupt(auto_psv))) _U1TXInterrupt(void){
 int main(void)
 {
 	initialize_HW();
+    uint8_t send[6]={0};
     PR1=31250;
     PR2=24999;
     PR4=1999;
-    send[0]=0xff;
-    send[1]=0xff;
+
 	// main loop:
     Print4Digits_LCD(Display);
-
+    send[0]=0xff;
+    send[1]=0xff;
     
 	while(1){
         
@@ -132,8 +123,6 @@ int main(void)
             if(SendenFlag==1){
                 if(((timer4ms-delaytime4)>entprellzeit)&&PORTBbits.RB3==0)  //nach der entprellzeit wird der Ausgang beschrieben
                    
-                {
-                    
 
                     SendenFlag = 0;                              //Tasterflag zurücksetzen
                     key_event=0;
