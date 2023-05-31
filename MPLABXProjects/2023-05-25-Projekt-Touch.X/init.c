@@ -117,7 +117,7 @@ void initialize_HW(void){
     T1CONbits.TGATE=0;          //TGATE: gated Time accumulation
     //Timer2
     T2CONbits.TON = 1;          //Timer an
-    T2CONbits.TCKPS = 0b10;     //Prescaler clock 1:64 
+    T2CONbits.TCKPS = 0b10;     //Prescaler clock 1:64
     T2CONbits.TCS = 0;          //Clock Source Select Bit: 0= internal
     //Timer4
     T4CONbits.TON = 1;          //Timer an
@@ -241,6 +241,10 @@ void initialize_HW(void){
     ADCON3bits.ADCS=0b0000001;      //AD Conversion prescaler :8MHz
     ADCON3bits.SLEN0=1;             //A/D Sample List 0 Enable 
     ADCON1bits.ADON =1;             //Enable ADC
+    
+    ADL0CONLbits.SLTSRC = 0b00110;  //Set Trigger Source to CTMU Jürgen
+    
+    
   
     while(ADSTATHbits.ADREADY==0);
     
@@ -258,7 +262,8 @@ void initialize_HW(void){
     //Table 0: Vbat/2
     ADTBL0bits.DIFF=0;              //Single-ended messung
     ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
-    ADTBL0bits.ADCH=0b1110111;      //Ch1: CTMU
+    
+    ADTBL0bits.ADCH=30;      //Ch30: PAD1
 
     _SL0IF=0;
     _AD1IE=1;                       //ADC Interrupt enable
@@ -275,18 +280,39 @@ void initialize_HW(void){
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////CTMU//////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    CTMUCON1bits.CTMUEN = 1;
-    
-    OC1CON1bits.OCTSEL =000;
-    
-    
+    CTMUICONbits.IRNG = 0b01;                       //Current Source Base current (0,55uA nominal)
+    CTMUICONbits.ITRIM = 0b000000;                  //Current Source Trim bits Nominal current Output
+    CTMUCON2bits.EDG1SEL = 0b0001;                  //Edge 1 Source is OC 1
+    CTMUCON2bits.EDG2SEL = 0b0001;                  //Edge 2 Source is OC 1
+    CTMUCON2bits.EDG1POL=1;                         //Edge 1 polarity select bit positive edge-sensitive
+    CTMUCON2bits.EDG2POL=0;                         //Edge 2 polarity select bit positive edge-sensitive
+    CTMUCON2bits.EDG1MOD=1;                         //Edge 1 Edge-Sensitive Select bit Input is edge-sensitive
+    CTMUCON2bits.EDG2MOD=1;                         //Edge 2 Edge-Sensitive select bit Input is edge-sensitive
+    CTMUCON1bits.EDGSEQEN = 1;                      //Edge Sequence Enable bit: Edge 1 event must occur before Edge 2 event can occur
+    CTMUCON1bits.TGEN = 0;                          //?Time Generation Enable bit: Disables edge delay generation
+    CTMUCON1bits.CTTRIG = 1;                        //CTMU Trigger Control bit: Trigger output is enabled (automatically trigger an A/D conversion when secon edge event has occurred))
+    CTMUCON1bits.IDISSEN = 1;                       //Analog Current Source output is grounded to Discharge
+    //WARTEN!! Aber wie?
+    CTMUCON1bits.IDISSEN = 0;                       //Analog Current Source output is not grounded to Charge
+    CTMUCON1bits.CTMUEN = 0;                        //CTMU Disable 
     //gleichzeitig, wenn möglich:
-    CTMUCON2=CTMUCON2|(0b11<<8);                    //EDG1STAT bit 7, EDG2STAT bit 8
-    CTMUCON2bits.EDG1MOD=1;                         //Edge 1 Edge-Sensitive Select bit
-    CTMUCON2bits.EDG2MOD=1;                         //Edge 2 Edge-Sensitive select bit
-    CTMUCON2bits.EDG1POL=1;                         //Edge 1 polarity select bit
-    CTMUCON2bits.EDG2POL=1;                         //Edge 2 polarity select bit
+    CTMUCON2=CTMUCON2&~(0b11<<8);                    //EDG1STAT bit 7, EDG2STAT bit 8 gleichzeitig löschen
+    CTMUCON1bits.EDGEN = 1;
+    CTMUCON1bits.CTMUEN = 1;                        //CTMU Enable
+    
+    
+    //********Output Compare**********
+    OC1CON1bits.OCTSEL = 0b000;                     //Output Compare 1 select Timer2
+    OC1R = 1;                                     //?Start Value
+    OC1RS = 501;                                   //?Stop Value
+    //Timer 2 Prescaler und PR2 einstellen -> Siehe oben und Main
+    OC1CON2bits.SYNCSEL = 0b01100;                  //Trigger/Synchronization Source Selection: Timer 2
+    OC1CON1bits.OCM = 0b101;                        //Output Compare x Mode Select bits: Double Compare Continuous Pulse mode
+    //Timer 2 aktiviieren -> Siehe oben
+    OC1CON1bits.TRIGMODE = 1;
+    
+    
+    
     
     
     

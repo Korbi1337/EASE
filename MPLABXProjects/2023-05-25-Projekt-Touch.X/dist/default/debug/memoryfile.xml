@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/debug/2023-05-20-Projekt-ADC_USB.X.debug.elf">
+  <executable name="dist/default/debug/2023-05-25-Projekt-Touch.X.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>8192</length>
@@ -11,8 +11,8 @@
     <memory name="program">
       <units>bytes</units>
       <length>131316</length>
-      <used>4302</used>
-      <free>127014</free>
+      <used>4407</used>
+      <free>126909</free>
     </memory>
   </executable>
 </project>

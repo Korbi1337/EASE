@@ -22,8 +22,13 @@ _T2IF=0; //reset Interrupt flag
 /*DMACH0bits.CHREQ=1;
 while(DMACH0bits.CHREQ);*/
 
-_IDISSEN=1;
+//_IDISSEN=1;
 
+//**********CTMU**********
+    CTMUCON1bits.IDISSEN = 0;       //Analog Current Source output is not grounded to Charge again
+    CTMUCON2=CTMUCON2&~(0b11<<8);                    //EDG1STAT bit 7, EDG2STAT bit 8 gleichzeitig löschen
+    LATCbits.LATC12 = 0;            //LED D5 für Debugging
+//........................
 }
 
 
@@ -43,10 +48,13 @@ void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
     send[3]=(uint8_t)res;     
     send[4]=(uint8_t)(res2>>8);      
     send[5]=(uint8_t)res2;   
-    
-    
     ADL0CONLbits.SAMP=0;   //Schalter schließen
-
+    
+    
+//**********CTMU**********
+    CTMUCON1bits.IDISSEN = 1;    //Analog Current Source output is grounded to Discharge
+//........................
+    LATCbits.LATC12 = 1;    //LED D5 für Debugging
 }  
 
 
@@ -108,7 +116,7 @@ int main(void)
 {
 	initialize_HW();
     PR1=31250;
-    PR2=24999;
+    PR2=1250;           //Einstellen Periodendauer 5ms
     PR4=1999;
     send[0]=0xff;
     send[1]=0xff;
@@ -118,7 +126,6 @@ int main(void)
     
 	while(1){
         
-
         if(Displayflag==1){
             
         Print4Digits_LCD(res);}else{Print4Digits_LCD(res2);}

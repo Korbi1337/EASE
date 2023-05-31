@@ -241,10 +241,10 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x4cbb
+.debug_info       0x000000       0x4cd7
  *(.debug_info)
- .debug_info      0x000000       0x3424 build/default/production/init.o
- .debug_info      0x003424       0x1897 build/default/production/main.o
+ .debug_info      0x000000       0x3432 build/default/production/init.o
+ .debug_info      0x003432       0x18a5 build/default/production/main.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x294

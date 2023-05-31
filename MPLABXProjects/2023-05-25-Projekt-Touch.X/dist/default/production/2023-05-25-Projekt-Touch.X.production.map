@@ -5,11 +5,11 @@ Tool Name:
 
 Command:
   -p24FJ128GC006 \
-  --mdfp=D:/Programme/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16 \
+  --mdfp=C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16 \
   -o \
-  dist/default/production/2023-05-20-Projekt-ADC_USB.X.production.elf \
+  dist/default/production/2023-05-25-Projekt-Touch.X.production.elf \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/.. \
-  -LD:/Programme/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16/bin/../support/PIC24F/gld \
+  -LC:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16/bin/../support/PIC24F/gld \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../lib \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24E/gld \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24F/gld \
@@ -34,7 +34,7 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/production/2023-05-20-Projekt-ADC+USB.X.production.map \
+  -Map=dist/default/production/2023-05-25-Projekt-Touch.X.production.map \
   --report-mem \
   --memorysummary \
   dist/default/production/memoryfile.xml \
@@ -68,11 +68,11 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x30e           0x495  (1173)
-.text                        0x50e               0x6b2           0xa0b  (2571)
-.dinit                       0xbc0               0x174           0x22e  (558)
+.text                        0x200               0x2ec           0x462  (1122)
+.text                        0x4ec               0x718           0xaa4  (2724)
+.dinit                       0xc04               0x174           0x22e  (558)
 
-                 Total "program" memory used (bytes):         0x10ce  (4302) 3%
+                 Total "program" memory used (bytes):         0x1134  (4404) 3%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -143,35 +143,35 @@ External Symbols in Program Memory (by address):
                   0x000252                  __data_init
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
-                  0x000350                  __ADC1Interrupt
-                  0x000408                  __T4Interrupt
-                  0x00042a                  __CNInterrupt
-                  0x000480                  __U1RXInterrupt
-                  0x0004a0                  __U1TXInterrupt
-                  0x0004ee                  ___udivsi3
-                  0x00050e                  _main
-                  0x0005b8                  _PrintDigit_LCD
-                  0x0008fc                  _Print4Digits_LCD
-                  0x0009ce                  _initialize_HW
+                  0x00035c                  __ADC1Interrupt
+                  0x0003e6                  __T4Interrupt
+                  0x000408                  __CNInterrupt
+                  0x00045e                  __U1RXInterrupt
+                  0x00047e                  __U1TXInterrupt
+                  0x0004cc                  ___udivsi3
+                  0x0004ec                  _main
+                  0x000596                  _PrintDigit_LCD
+                  0x0008da                  _Print4Digits_LCD
+                  0x0009ac                  _initialize_HW
 
 External Symbols in Program Memory (by name):
 
-                  0x0008fc                  _Print4Digits_LCD
-                  0x0005b8                  _PrintDigit_LCD
-                  0x000350                  __ADC1Interrupt
-                  0x00042a                  __CNInterrupt
+                  0x0008da                  _Print4Digits_LCD
+                  0x000596                  _PrintDigit_LCD
+                  0x00035c                  __ADC1Interrupt
+                  0x000408                  __CNInterrupt
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
-                  0x000408                  __T4Interrupt
-                  0x000480                  __U1RXInterrupt
-                  0x0004a0                  __U1TXInterrupt
-                  0x0004ee                  ___udivsi3
+                  0x0003e6                  __T4Interrupt
+                  0x00045e                  __U1RXInterrupt
+                  0x00047e                  __U1TXInterrupt
+                  0x0004cc                  ___udivsi3
                   0x000252                  __data_init
                   0x000252                  __data_init_da
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0009ce                  _initialize_HW
-                  0x00050e                  _main
+                  0x0009ac                  _initialize_HW
+                  0x0004ec                  _main
 
 Memory Configuration
 
@@ -212,7 +212,7 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x30e
+.text             0x000200        0x2ec
  *(.init)
  .init            0x000200         0x4c c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
                   0x000200                  __resetPRI
@@ -224,24 +224,24 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x000304        0x1e8 build/default/production/main.o
+ .isr.text        0x000304        0x1c6 build/default/production/main.o
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
-                  0x000350                  __ADC1Interrupt
-                  0x000408                  __T4Interrupt
-                  0x00042a                  __CNInterrupt
-                  0x000480                  __U1RXInterrupt
-                  0x0004a0                  __U1TXInterrupt
+                  0x00035c                  __ADC1Interrupt
+                  0x0003e6                  __T4Interrupt
+                  0x000408                  __CNInterrupt
+                  0x00045e                  __U1RXInterrupt
+                  0x00047e                  __U1TXInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x0004ec          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
-                  0x0004ec                  __crt_start_mode
-                  0x0004ec                  __crt_start_mode_normal
- .libm.udivsi3    0x0004ee         0x20 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
-                  0x0004ee                  ___udivsi3
+                  0x0004ca          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
+                  0x0004ca                  __crt_start_mode
+                  0x0004ca                  __crt_start_mode_normal
+ .libm.udivsi3    0x0004cc         0x20 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x0004cc                  ___udivsi3
 
 usercode
  *(usercode)
@@ -261,11 +261,11 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x5e83
+.debug_info       0x000000       0x673a
  *(.debug_info)
- .debug_info      0x000000       0x4247 build/default/production/init.o
- .debug_info      0x004247       0x1baf build/default/production/main.o
- .debug_info      0x005df6         0x8d c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_info      0x000000       0x4a0b build/default/production/init.o
+ .debug_info      0x004a0b       0x1ca2 build/default/production/main.o
+ .debug_info      0x0066ad         0x8d c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x279
@@ -274,21 +274,21 @@ __CONFIG1
  .debug_abbrev    0x0000fe        0x167 build/default/production/main.o
  .debug_abbrev    0x000265         0x14 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
-.debug_line       0x000000        0x35d
+.debug_line       0x000000        0x3a6
  *(.debug_line)
- .debug_line      0x000000        0x16c build/default/production/init.o
- .debug_line      0x00016c        0x1ac build/default/production/main.o
- .debug_line      0x000318         0x45 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_line      0x000000        0x19c build/default/production/init.o
+ .debug_line      0x00019c        0x1c5 build/default/production/main.o
+ .debug_line      0x000361         0x45 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
-.debug_frame      0x000000        0x1cc
+.debug_frame      0x000000        0x1d2
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/default/production/init.o
- .debug_frame     0x00002e        0x19e build/default/production/main.o
+ .debug_frame     0x00002e        0x1a4 build/default/production/main.o
 
-.debug_str        0x000000        0x2f8
+.debug_str        0x000000        0x34b
  *(.debug_str)
- .debug_str       0x000000        0x1fc build/default/production/init.o
- .debug_str       0x0001fc         0xfc build/default/production/main.o
+ .debug_str       0x000000        0x239 build/default/production/init.o
+ .debug_str       0x000239        0x112 build/default/production/main.o
 
 .debug_loc
  *(.debug_loc)
@@ -2029,28 +2029,28 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a
 LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-elf.a
 END GROUP
-OUTPUT(dist/default/production/2023-05-20-Projekt-ADC_USB.X.production.elf elf32-pic30)
+OUTPUT(dist/default/production/2023-05-25-Projekt-Touch.X.production.elf elf32-pic30)
 LOAD data_init
 
 .debug_pubtypes
-                  0x000048        0x835
+                  0x000048        0x8ee
  .debug_pubtypes
-                  0x000048        0x5d9 build/default/production/init.o
+                  0x000048        0x66d build/default/production/init.o
  .debug_pubtypes
-                  0x000621        0x25c build/default/production/main.o
+                  0x0006b5        0x281 build/default/production/main.o
 
 __c30_signature
-                  0x00087d         0x1e
+                  0x000936         0x1e
  __c30_signature
-                  0x00087d          0x6 build/default/production/init.o
+                  0x000936          0x6 build/default/production/init.o
  __c30_signature
-                  0x000883          0x6 build/default/production/main.o
+                  0x00093c          0x6 build/default/production/main.o
  __c30_signature
-                  0x000889          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
+                  0x000942          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
  __c30_signature
-                  0x00088f          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
+                  0x000948          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
  __c30_signature
-                  0x000895          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x00094e          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
 .nbss               0x0800         0x12
  .nbss              0x0800         0x12 build/default/production/main.o
@@ -2124,13 +2124,13 @@ __c30_signature
  .ivt._U1TXInterrupt
                   0x00002c          0x2 build/default/production/main.o
 
-.text             0x00050e        0x6b2
- .text            0x00050e        0x4c0 build/default/production/main.o
-                  0x00050e                  _main
-                  0x0005b8                  _PrintDigit_LCD
-                  0x0008fc                  _Print4Digits_LCD
- .text            0x0009ce        0x1f2 build/default/production/init.o
-                  0x0009ce                  _initialize_HW
+.text             0x0004ec        0x718
+ .text            0x0004ec        0x4c0 build/default/production/main.o
+                  0x0004ec                  _main
+                  0x000596                  _PrintDigit_LCD
+                  0x0008da                  _Print4Digits_LCD
+ .text            0x0009ac        0x258 build/default/production/init.o
+                  0x0009ac                  _initialize_HW
 
-.dinit            0x000bc0        0x174
- .dinit           0x000bc0        0x174 data_init
+.dinit            0x000c04        0x174
+ .dinit           0x000c04        0x174 data_init
