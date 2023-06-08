@@ -23,10 +23,9 @@ _T2IF=0; //reset Interrupt flag
 while(DMACH0bits.CHREQ);*/
 
 //_IDISSEN=1;
-
 //**********CTMU**********
     CTMUCON1bits.IDISSEN = 0;       //Analog Current Source output is not grounded to Charge again
-    CTMUCON2=CTMUCON2&~(0b11<<8);                    //EDG1STAT bit 7, EDG2STAT bit 8 gleichzeitig löschen
+    CTMUCON2=CTMUCON2&~(0b11<<8);   //EDG1STAT bit 7, EDG2STAT bit 8 gleichzeitig löschen
     LATCbits.LATC12 = 0;            //LED D5 für Debugging
 //........................
 }
@@ -34,6 +33,7 @@ while(DMACH0bits.CHREQ);*/
 
 void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
     //3V = 4096 1V = 1365, 1mV =1.365
+     LATCbits.LATC12 = 1;    //LED D5 für Debugging
     uint32_t x;
     _AD1IF=0;             //Interrupt Flag zurücksetzen
     ADL0CONLbits.SAMP=1;  //Schalter öffnen
@@ -48,13 +48,13 @@ void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
     send[3]=(uint8_t)res;     
     send[4]=(uint8_t)(res2>>8);      
     send[5]=(uint8_t)res2;   
-    ADL0CONLbits.SAMP=0;   //Schalter schließen
+    //ADL0CONLbits.SAMP=0;   //Schalter schließen
     
     
 //**********CTMU**********
     CTMUCON1bits.IDISSEN = 1;    //Analog Current Source output is grounded to Discharge
 //........................
-    LATCbits.LATC12 = 1;    //LED D5 für Debugging
+   
 }  
 
 

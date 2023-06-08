@@ -68,11 +68,11 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x2ec           0x462  (1122)
-.text                        0x4ec               0x718           0xaa4  (2724)
-.dinit                       0xc04               0x174           0x22e  (558)
+.text                        0x200               0x2ea           0x45f  (1119)
+.text                        0x4ea               0x718           0xaa4  (2724)
+.dinit                       0xc02               0x174           0x22e  (558)
 
-                 Total "program" memory used (bytes):         0x1134  (4404) 3%
+                 Total "program" memory used (bytes):         0x1131  (4401) 3%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -144,34 +144,34 @@ External Symbols in Program Memory (by address):
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
                   0x00035c                  __ADC1Interrupt
-                  0x0003e6                  __T4Interrupt
-                  0x000408                  __CNInterrupt
-                  0x00045e                  __U1RXInterrupt
-                  0x00047e                  __U1TXInterrupt
-                  0x0004cc                  ___udivsi3
-                  0x0004ec                  _main
-                  0x000596                  _PrintDigit_LCD
-                  0x0008da                  _Print4Digits_LCD
-                  0x0009ac                  _initialize_HW
+                  0x0003e4                  __T4Interrupt
+                  0x000406                  __CNInterrupt
+                  0x00045c                  __U1RXInterrupt
+                  0x00047c                  __U1TXInterrupt
+                  0x0004ca                  ___udivsi3
+                  0x0004ea                  _main
+                  0x000594                  _PrintDigit_LCD
+                  0x0008d8                  _Print4Digits_LCD
+                  0x0009aa                  _initialize_HW
 
 External Symbols in Program Memory (by name):
 
-                  0x0008da                  _Print4Digits_LCD
-                  0x000596                  _PrintDigit_LCD
+                  0x0008d8                  _Print4Digits_LCD
+                  0x000594                  _PrintDigit_LCD
                   0x00035c                  __ADC1Interrupt
-                  0x000408                  __CNInterrupt
+                  0x000406                  __CNInterrupt
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
-                  0x0003e6                  __T4Interrupt
-                  0x00045e                  __U1RXInterrupt
-                  0x00047e                  __U1TXInterrupt
-                  0x0004cc                  ___udivsi3
+                  0x0003e4                  __T4Interrupt
+                  0x00045c                  __U1RXInterrupt
+                  0x00047c                  __U1TXInterrupt
+                  0x0004ca                  ___udivsi3
                   0x000252                  __data_init
                   0x000252                  __data_init_da
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0009ac                  _initialize_HW
-                  0x0004ec                  _main
+                  0x0009aa                  _initialize_HW
+                  0x0004ea                  _main
 
 Memory Configuration
 
@@ -212,7 +212,7 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x2ec
+.text             0x000200        0x2ea
  *(.init)
  .init            0x000200         0x4c c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
                   0x000200                  __resetPRI
@@ -224,24 +224,24 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x000304        0x1c6 build/default/production/main.o
+ .isr.text        0x000304        0x1c4 build/default/production/main.o
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
                   0x00035c                  __ADC1Interrupt
-                  0x0003e6                  __T4Interrupt
-                  0x000408                  __CNInterrupt
-                  0x00045e                  __U1RXInterrupt
-                  0x00047e                  __U1TXInterrupt
+                  0x0003e4                  __T4Interrupt
+                  0x000406                  __CNInterrupt
+                  0x00045c                  __U1RXInterrupt
+                  0x00047c                  __U1TXInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x0004ca          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
-                  0x0004ca                  __crt_start_mode
-                  0x0004ca                  __crt_start_mode_normal
- .libm.udivsi3    0x0004cc         0x20 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
-                  0x0004cc                  ___udivsi3
+                  0x0004c8          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
+                  0x0004c8                  __crt_start_mode
+                  0x0004c8                  __crt_start_mode_normal
+ .libm.udivsi3    0x0004ca         0x20 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x0004ca                  ___udivsi3
 
 usercode
  *(usercode)
@@ -261,11 +261,11 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x673a
+.debug_info       0x000000       0x671e
  *(.debug_info)
- .debug_info      0x000000       0x4a0b build/default/production/init.o
- .debug_info      0x004a0b       0x1ca2 build/default/production/main.o
- .debug_info      0x0066ad         0x8d c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_info      0x000000       0x49fd build/default/production/init.o
+ .debug_info      0x0049fd       0x1c94 build/default/production/main.o
+ .debug_info      0x006691         0x8d c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x279
@@ -274,11 +274,11 @@ __CONFIG1
  .debug_abbrev    0x0000fe        0x167 build/default/production/main.o
  .debug_abbrev    0x000265         0x14 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
-.debug_line       0x000000        0x3a6
+.debug_line       0x000000        0x3a5
  *(.debug_line)
  .debug_line      0x000000        0x19c build/default/production/init.o
- .debug_line      0x00019c        0x1c5 build/default/production/main.o
- .debug_line      0x000361         0x45 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_line      0x00019c        0x1c4 build/default/production/main.o
+ .debug_line      0x000360         0x45 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
 .debug_frame      0x000000        0x1d2
  *(.debug_frame)
@@ -2124,13 +2124,13 @@ __c30_signature
  .ivt._U1TXInterrupt
                   0x00002c          0x2 build/default/production/main.o
 
-.text             0x0004ec        0x718
- .text            0x0004ec        0x4c0 build/default/production/main.o
-                  0x0004ec                  _main
-                  0x000596                  _PrintDigit_LCD
-                  0x0008da                  _Print4Digits_LCD
- .text            0x0009ac        0x258 build/default/production/init.o
-                  0x0009ac                  _initialize_HW
+.text             0x0004ea        0x718
+ .text            0x0004ea        0x4c0 build/default/production/main.o
+                  0x0004ea                  _main
+                  0x000594                  _PrintDigit_LCD
+                  0x0008d8                  _Print4Digits_LCD
+ .text            0x0009aa        0x258 build/default/production/init.o
+                  0x0009aa                  _initialize_HW
 
-.dinit            0x000c04        0x174
- .dinit           0x000c04        0x174 data_init
+.dinit            0x000c02        0x174
+ .dinit           0x000c02        0x174 data_init

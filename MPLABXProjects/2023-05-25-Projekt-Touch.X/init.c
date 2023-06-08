@@ -242,13 +242,9 @@ void initialize_HW(void){
     ADCON3bits.SLEN0=1;             //A/D Sample List 0 Enable 
     ADCON1bits.ADON =1;             //Enable ADC
     
-    ADL0CONLbits.SLTSRC = 0b00110;  //Set Trigger Source to CTMU Jürgen
-    
-    
-  
+    ADL0CONLbits.SLTSRC = 0b00110;  //Set Trigger Source to CTMU 
+
     while(ADSTATHbits.ADREADY==0);
-    
-    
 ////5. Sample List settings
     //List0
     ADL0CONHbits.SAMC=0b00000;      //0.5 TAD Sample/Hold Charge Time
@@ -259,20 +255,20 @@ void initialize_HW(void){
     ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
     ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
     
-    //Table 0: Vbat/2
+    //Table 0: PAD1
     ADTBL0bits.DIFF=0;              //Single-ended messung
     ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
     
-    ADTBL0bits.ADCH=30;      //Ch30: PAD1
+    ADTBL0bits.ADCH=30;             //Ch30: PAD1
 
-    _SL0IF=0;
+    _SL0IF=0;                       //
     _AD1IE=1;                       //ADC Interrupt enable
-    _AD1IF=0;
+    _AD1IF=0;                       //
     
     ADL0CONLbits.SLEN = 1;          //trigger causes sampling
     ADCON1bits.ADCAL =1;            //Initiates Internal Analog calibration - Evtl in die Main! oder nicht
     
-    while(ADSTATHbits.ADREADY==0);
+    while(ADSTATHbits.ADREADY==0);  //
     ADL0CONLbits.SAMP=0;            //close sample switch
     
 
@@ -304,8 +300,8 @@ void initialize_HW(void){
     //********Output Compare**********
     OC1CON1bits.OCTSEL = 0b000;                     //Output Compare 1 select Timer2
     OC1R = 1;                                     //?Start Value
-    OC1RS = 501;                                   //?Stop Value
-    //Timer 2 Prescaler und PR2 einstellen -> Siehe oben und Main
+    OC1RS = 100;                                   //?Stop Value
+    //T imer 2 Prescaler und PR2 einstellen -> Siehe oben und Main
     OC1CON2bits.SYNCSEL = 0b01100;                  //Trigger/Synchronization Source Selection: Timer 2
     OC1CON1bits.OCM = 0b101;                        //Output Compare x Mode Select bits: Double Compare Continuous Pulse mode
     //Timer 2 aktiviieren -> Siehe oben
