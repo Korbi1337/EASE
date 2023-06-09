@@ -4,19 +4,19 @@ Tool Name:
   c:\program files\microchip\xc16\v2.00\bin\bin\..\bin/elf-ld.exe
 
 Command:
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.00 \
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.01 \
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.02 \
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.03 \
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.04 \
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.05 \
-  -TC:\\Users\\tobia\\AppData\\Local\\Temp\\tmp000043a0.06 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.00 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.01 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.02 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.03 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.04 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.05 \
+  -TC:\\Users\\korbi\\AppData\\Local\\Temp\\tmp00003984.06 \
   -p24FJ128GC006 \
-  --mdfp=C:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16 \
+  --mdfp=D:/Programme/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16 \
   -o \
-  dist/default/debug/2023-05-25-Projekt-Touch.X.debug.elf \
+  dist/default/debug/2023-05-25-Projekt-oszilloskop.X.debug.elf \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/.. \
-  -LC:/Program Files/Microchip/MPLABX/v6.05/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16/bin/../support/PIC24F/gld \
+  -LD:/Programme/packs/Microchip/PIC24F-GC_DFP/1.4.69/xc16/bin/../support/PIC24F/gld \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../lib \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24E/gld \
   -Lc:/program files/microchip/xc16/v2.00/bin/bin/../../support/PIC24F/gld \
@@ -44,7 +44,7 @@ Command:
   --stackguard=16 \
   --no-force-link \
   --smart-io \
-  -Map=dist/default/debug/2023-05-25-Projekt-Touch.X.debug.map \
+  -Map=dist/default/debug/2023-05-25-Projekt-oszilloskop.X.debug.map \
   --report-mem \
   --memorysummary \
   dist/default/debug/memoryfile.xml \
@@ -78,11 +78,11 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x200               0x2ec           0x462  (1122)
-.text                        0x4ec               0x71a           0xaa7  (2727)
-.dinit                       0xc06               0x174           0x22e  (558)
+.text                        0x200               0x330           0x4c8  (1224)
+.text                        0x530               0x758           0xb04  (2820)
+.dinit                       0xc88               0x174           0x22e  (558)
 
-                 Total "program" memory used (bytes):         0x1137  (4407) 3%
+                 Total "program" memory used (bytes):         0x11fa  (4602) 3%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x2000]
@@ -96,12 +96,12 @@ reserve_data_0x820           0x820                 0x2             0x2  (2)
 reserve_data_0x822           0x822                 0x2             0x2  (2)
 reserve_data_0x824           0x824                 0x4             0x4  (4)
 reserve_data_0x82a           0x82a                0x26            0x26  (38)
-.nbss                        0x850                   0            0x12  (18)
-.ndata                       0x862                   0             0x4  (4)
-.bss                         0x866                   0           0x20a  (522)
-.data                        0xa70                   0           0x200  (512)
+.nbss                        0x850                   0            0x10  (16)
+.ndata                       0x860                   0             0x4  (4)
+.bss                         0x864                   0           0x20a  (522)
+.data                        0xa6e                   0           0x200  (512)
 
-                 Total "data" memory used (bytes):          0x46e  (1134) 13%
+                 Total "data" memory used (bytes):          0x46c  (1132) 13%
 
 
 Dynamic Memory Usage
@@ -109,9 +109,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0xc70                              0x1b90  (7056)
+stack                        0xc6e                              0x1b92  (7058)
 
-                 Maximum dynamic memory (bytes):         0x1b90  (7056)
+                 Maximum dynamic memory (bytes):         0x1b92  (7058)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -122,73 +122,77 @@ External Symbols in Data Memory (by address):
                     0x0852                  _delaytime4
                     0x0854                  _key_event
                     0x0856                  _SendenFlag
-                    0x0858                  _Displayflag
-                    0x085a                  _i
-                    0x085c                  _res
-                    0x085e                  _res2
-                    0x0860                  _y
-                    0x0862                  _Display
-                    0x0864                  _entprellzeit
-                    0x0866                  _receive_num
-                    0x086a                  _send
-                    0x0870                  _Array2
-                    0x0a70                  _Array
+                    0x0858                  _pgaflag
+                    0x0859                  _i
+                    0x085a                  _res
+                    0x085c                  _res2
+                    0x085e                  _y
+                    0x0860                  _Display
+                    0x0862                  _entprellzeit
+                    0x0864                  _receive_num
+                    0x0868                  _send
+                    0x086e                  _Array2
+                    0x0a6e                  _Array
 
 External Symbols in Data Memory (by name):
 
-                    0x0a70                  _Array
-                    0x0870                  _Array2
-                    0x0862                  _Display
-                    0x0858                  _Displayflag
+                    0x0a6e                  _Array
+                    0x086e                  _Array2
+                    0x0860                  _Display
                     0x0856                  _SendenFlag
                     0x0852                  _delaytime4
-                    0x0864                  _entprellzeit
-                    0x085a                  _i
+                    0x0862                  _entprellzeit
+                    0x0859                  _i
                     0x0854                  _key_event
-                    0x0866                  _receive_num
-                    0x085c                  _res
-                    0x085e                  _res2
-                    0x086a                  _send
+                    0x0858                  _pgaflag
+                    0x0864                  _receive_num
+                    0x085a                  _res
+                    0x085c                  _res2
+                    0x0868                  _send
                     0x0850                  _timer4ms
-                    0x0860                  _y
+                    0x085e                  _y
 
 External Symbols in Program Memory (by address):
 
                   0x000200                  __resetPRI
                   0x00023c                  __psv_init
-                  0x000252                  __data_init_da
                   0x000252                  __data_init
+                  0x000252                  __data_init_da
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
-                  0x00035c                  __ADC1Interrupt
-                  0x0003e6                  __T4Interrupt
-                  0x000408                  __CNInterrupt
-                  0x00045e                  __U1RXInterrupt
-                  0x00047e                  __U1TXInterrupt
-                  0x0004cc                  ___udivsi3
-                  0x0004ec                  _main
-                  0x000596                  _PrintDigit_LCD
-                  0x0008da                  _Print4Digits_LCD
-                  0x0009ac                  _initialize_HW
+                  0x000352                  __T3Interrupt
+                  0x000382                  __ADC1Interrupt
+                  0x0003fa                  __T4Interrupt
+                  0x00041c                  __CNInterrupt
+                  0x00046c                  __U1RXInterrupt
+                  0x00048c                  __SPI1Interrupt
+                  0x0004c2                  __U1TXInterrupt
+                  0x000510                  ___udivsi3
+                  0x000530                  _main
+                  0x0005f8                  _PrintDigit_LCD
+                  0x00093c                  _Print4Digits_LCD
+                  0x000a0e                  _initialize_HW
 
 External Symbols in Program Memory (by name):
 
-                  0x0008da                  _Print4Digits_LCD
-                  0x000596                  _PrintDigit_LCD
-                  0x00035c                  __ADC1Interrupt
-                  0x000408                  __CNInterrupt
+                  0x00093c                  _Print4Digits_LCD
+                  0x0005f8                  _PrintDigit_LCD
+                  0x000382                  __ADC1Interrupt
+                  0x00041c                  __CNInterrupt
                   0x000304                  __DefaultInterrupt
+                  0x00048c                  __SPI1Interrupt
                   0x000334                  __T2Interrupt
-                  0x0003e6                  __T4Interrupt
-                  0x00045e                  __U1RXInterrupt
-                  0x00047e                  __U1TXInterrupt
-                  0x0004cc                  ___udivsi3
+                  0x000352                  __T3Interrupt
+                  0x0003fa                  __T4Interrupt
+                  0x00046c                  __U1RXInterrupt
+                  0x0004c2                  __U1TXInterrupt
+                  0x000510                  ___udivsi3
                   0x000252                  __data_init
                   0x000252                  __data_init_da
                   0x00023c                  __psv_init
                   0x000200                  __resetPRI
-                  0x0009ac                  _initialize_HW
-                  0x0004ec                  _main
+                  0x000a0e                  _initialize_HW
+                  0x000530                  _main
 
 Memory Configuration
 
@@ -267,7 +271,7 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000200        0x2ec
+.text             0x000200        0x330
  *(.init)
  .init            0x000200         0x4c c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
                   0x000200                  __resetPRI
@@ -279,24 +283,26 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x000304        0x1c6 build/default/debug/main.o
+ .isr.text        0x000304        0x20a build/default/debug/main.o
                   0x000304                  __DefaultInterrupt
                   0x000334                  __T2Interrupt
-                  0x00035c                  __ADC1Interrupt
-                  0x0003e6                  __T4Interrupt
-                  0x000408                  __CNInterrupt
-                  0x00045e                  __U1RXInterrupt
-                  0x00047e                  __U1TXInterrupt
+                  0x000352                  __T3Interrupt
+                  0x000382                  __ADC1Interrupt
+                  0x0003fa                  __T4Interrupt
+                  0x00041c                  __CNInterrupt
+                  0x00046c                  __U1RXInterrupt
+                  0x00048c                  __SPI1Interrupt
+                  0x0004c2                  __U1TXInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x0004ca          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
-                  0x0004ca                  __crt_start_mode
-                  0x0004ca                  __crt_start_mode_normal
- .libm.udivsi3    0x0004cc         0x20 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
-                  0x0004cc                  ___udivsi3
+                  0x00050e          0x2 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt_start_mode_normalda.Meo)
+                  0x00050e                  __crt_start_mode
+                  0x00050e                  __crt_start_mode_normal
+ .libm.udivsi3    0x000510         0x20 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x000510                  ___udivsi3
 
 usercode
  *(usercode)
@@ -316,34 +322,34 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x673a
+.debug_info       0x000000       0x6bf6
  *(.debug_info)
- .debug_info      0x000000       0x4a0b build/default/debug/init.o
- .debug_info      0x004a0b       0x1ca2 build/default/debug/main.o
- .debug_info      0x0066ad         0x8d c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_info      0x000000       0x4da4 build/default/debug/init.o
+ .debug_info      0x004da4       0x1dc5 build/default/debug/main.o
+ .debug_info      0x006b69         0x8d c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x279
+.debug_abbrev     0x000000        0x2ae
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0xfe build/default/debug/init.o
- .debug_abbrev    0x0000fe        0x167 build/default/debug/main.o
- .debug_abbrev    0x000265         0x14 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_abbrev    0x0000fe        0x19c build/default/debug/main.o
+ .debug_abbrev    0x00029a         0x14 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
-.debug_line       0x000000        0x3a6
+.debug_line       0x000000        0x386
  *(.debug_line)
- .debug_line      0x000000        0x19c build/default/debug/init.o
- .debug_line      0x00019c        0x1c5 build/default/debug/main.o
- .debug_line      0x000361         0x45 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+ .debug_line      0x000000        0x189 build/default/debug/init.o
+ .debug_line      0x000189        0x1b8 build/default/debug/main.o
+ .debug_line      0x000341         0x45 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
-.debug_frame      0x000000        0x1d2
+.debug_frame      0x000000        0x220
  *(.debug_frame)
  .debug_frame     0x000000         0x2e build/default/debug/init.o
- .debug_frame     0x00002e        0x1a4 build/default/debug/main.o
+ .debug_frame     0x00002e        0x1f2 build/default/debug/main.o
 
-.debug_str        0x000000        0x34b
+.debug_str        0x000000        0x37f
  *(.debug_str)
- .debug_str       0x000000        0x239 build/default/debug/init.o
- .debug_str       0x000239        0x112 build/default/debug/main.o
+ .debug_str       0x000000        0x276 build/default/debug/init.o
+ .debug_str       0x000276        0x109 build/default/debug/main.o
 
 .debug_loc
  *(.debug_loc)
@@ -352,12 +358,12 @@ __CONFIG1
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x19a
+                  0x000000        0x1ba
  *(.debug_pubnames)
  .debug_pubnames
                   0x000000         0x24 build/default/debug/init.o
  .debug_pubnames
-                  0x000024        0x176 build/default/debug/main.o
+                  0x000024        0x196 build/default/debug/main.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -2084,55 +2090,55 @@ LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a
 LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-elf.a
 END GROUP
-OUTPUT(dist/default/debug/2023-05-25-Projekt-Touch.X.debug.elf elf32-pic30)
+OUTPUT(dist/default/debug/2023-05-25-Projekt-oszilloskop.X.debug.elf elf32-pic30)
 LOAD data_init
 
 .debug_pubtypes
-                  0x000048        0x8ee
+                  0x000048        0x981
  .debug_pubtypes
-                  0x000048        0x66d build/default/debug/init.o
+                  0x000048        0x6dd build/default/debug/init.o
  .debug_pubtypes
-                  0x0006b5        0x281 build/default/debug/main.o
+                  0x000725        0x2a4 build/default/debug/main.o
 
 __c30_signature
-                  0x000936         0x1e
+                  0x0009c9         0x1e
  __c30_signature
-                  0x000936          0x6 build/default/debug/init.o
+                  0x0009c9          0x6 build/default/debug/init.o
  __c30_signature
-                  0x00093c          0x6 build/default/debug/main.o
+                  0x0009cf          0x6 build/default/debug/main.o
  __c30_signature
-                  0x000942          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
+                  0x0009d5          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(crt0_extended24.o)
  __c30_signature
-                  0x000948          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
+                  0x0009db          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(data_init_24.o)
  __c30_signature
-                  0x00094e          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
+                  0x0009e1          0x6 c:/program files/microchip/xc16/v2.00/bin/bin/../../lib\libc99-pic30-elf.a(udivsi3.DA_o)
 
-.nbss               0x0850         0x12
- .nbss              0x0850         0x12 build/default/debug/main.o
+.nbss               0x0850         0x10
+ .nbss              0x0850         0x10 build/default/debug/main.o
                     0x0850                  _timer4ms
                     0x0852                  _delaytime4
                     0x0854                  _key_event
                     0x0856                  _SendenFlag
-                    0x0858                  _Displayflag
-                    0x085a                  _i
-                    0x085c                  _res
-                    0x085e                  _res2
-                    0x0860                  _y
+                    0x0858                  _pgaflag
+                    0x0859                  _i
+                    0x085a                  _res
+                    0x085c                  _res2
+                    0x085e                  _y
 
-.ndata              0x0862          0x4
- .ndata             0x0862          0x4 build/default/debug/main.o
-                    0x0862                  _Display
-                    0x0864                  _entprellzeit
+.ndata              0x0860          0x4
+ .ndata             0x0860          0x4 build/default/debug/main.o
+                    0x0860                  _Display
+                    0x0862                  _entprellzeit
 
-.bss                0x0866        0x20a
- .bss               0x0866        0x20a build/default/debug/main.o
-                    0x0866                  _receive_num
-                    0x086a                  _send
-                    0x0870                  _Array2
+.bss                0x0864        0x20a
+ .bss               0x0864        0x20a build/default/debug/main.o
+                    0x0864                  _receive_num
+                    0x0868                  _send
+                    0x086e                  _Array2
 
-.data               0x0a70        0x200
- .data              0x0a70        0x200 build/default/debug/main.o
-                    0x0a70                  _Array
+.data               0x0a6e        0x200
+ .data              0x0a6e        0x200 build/default/debug/main.o
+                    0x0a6e                  _Array
 
 .config_JTAGEN    0x0157fe          0x2
  .config_JTAGEN
@@ -2154,6 +2160,11 @@ __c30_signature
  .ivt._T2Interrupt
                   0x000022          0x2 build/default/debug/main.o
 
+.ivt._T3Interrupt
+                  0x000024          0x2
+ .ivt._T3Interrupt
+                  0x000024          0x2 build/default/debug/main.o
+
 .ivt._ADC1Interrupt
                   0x00002e          0x2
  .ivt._ADC1Interrupt
@@ -2174,18 +2185,23 @@ __c30_signature
  .ivt._U1RXInterrupt
                   0x00002a          0x2 build/default/debug/main.o
 
+.ivt._SPI1Interrupt
+                  0x000028          0x2
+ .ivt._SPI1Interrupt
+                  0x000028          0x2 build/default/debug/main.o
+
 .ivt._U1TXInterrupt
                   0x00002c          0x2
  .ivt._U1TXInterrupt
                   0x00002c          0x2 build/default/debug/main.o
 
-.text             0x0004ec        0x71a
- .text            0x0004ec        0x4c0 build/default/debug/main.o
-                  0x0004ec                  _main
-                  0x000596                  _PrintDigit_LCD
-                  0x0008da                  _Print4Digits_LCD
- .text            0x0009ac        0x25a build/default/debug/init.o
-                  0x0009ac                  _initialize_HW
+.text             0x000530        0x758
+ .text            0x000530        0x4de build/default/debug/main.o
+                  0x000530                  _main
+                  0x0005f8                  _PrintDigit_LCD
+                  0x00093c                  _Print4Digits_LCD
+ .text            0x000a0e        0x27a build/default/debug/init.o
+                  0x000a0e                  _initialize_HW
 
-.dinit            0x000c06        0x174
- .dinit           0x000c06        0x174 data_init
+.dinit            0x000c88        0x174
+ .dinit           0x000c88        0x174 data_init

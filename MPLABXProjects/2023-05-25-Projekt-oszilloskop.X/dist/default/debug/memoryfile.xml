@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/default/debug/2023-05-25-Projekt-Touch.X.debug.elf">
+  <executable name="dist/default/debug/2023-05-25-Projekt-oszilloskop.X.debug.elf">
     <memory name="data">
       <units>bytes</units>
       <length>8192</length>
-      <used>1134</used>
-      <free>7058</free>
+      <used>1132</used>
+      <free>7060</free>
     </memory>
     <memory name="program">
       <units>bytes</units>
       <length>131316</length>
-      <used>4407</used>
-      <free>126909</free>
+      <used>4602</used>
+      <free>126714</free>
     </memory>
   </executable>
 </project>

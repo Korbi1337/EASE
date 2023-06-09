@@ -58,7 +58,7 @@ void initialize_HW(void){
 	CLKDIVbits.CPDIV = 0;			// no division Clock=32MHz (default) 
 	
 // Pin functions --------------------------------------------------------
-// 1. Analog / digital:
+// 1. Analog 1 / digital 0:
 	ANSBbits.ANSB2 = 0;                    // RB2 = signal "ON" - digital
 	ANSBbits.ANSB7 = 0;	
     ANSDbits.ANSD8 =0;
@@ -68,11 +68,11 @@ void initialize_HW(void){
     ANSBbits.ANSB1= 1;                      //ADC Eingang Analog :Vbat/2
     ANSBbits.ANSB6=1;                       //ADC Eingang Analog: IN1
     ANSBbits.ANSB0 =1;                      //AFE_out Analog
-    ANSBbits.ANSB5 =0;                      //SPI Clock Digital
-    //PPS CLOCK als Input UND Output!
-    ANSBbits.ANSB4 =0;                      //SPI: Slave 
+    //ANSBbits.ANSB5 =0;                      //SPI Clock Digital
+    ANSBbits.ANSB4 =0;                      //SPI: Slave in 
+    ANSEbits.ANSE5 =0;                      //SPI: Chip Select
     
-// 2. Digital Input / Output:
+// 2. Digital Input 1 / Output 0:
 	TRISBbits.TRISB2 = 0;                  // "ON" = output
     TRISCbits.TRISC12 = 0;                  //output LED D5 
     TRISBbits.TRISB7 = 1;                  //Input K1
@@ -82,15 +82,17 @@ void initialize_HW(void){
     TRISBbits.TRISB12 = 0;                  //Audioausgang output
     TRISBbits.TRISB1 =1;                    //Input Vbat/2
     TRISBbits.TRISB6=1;                     //Input IN1
-    TRISBbits.TRISB5 =0;                    //Clock output
+    //TRISBbits.TRISB5 =0;                    //Clock output
     TRISBbits.TRISB4=0;                     //SPI: Slave In
-  
+    TRISEbits.TRISE5=0;                     //SPI: Chip select
+    TRISBbits.TRISB0 = 1;                   // AFE_out  
     
 // 3. Output level on digital pins:
 	LATBbits.LATB2 = 0;                    //Aus
     LATCbits.LATC12 = 0;        
     LATCbits.LATC15 = 0;
-    LATBbits.LATB12 =0;
+    LATBbits.LATB12 = 0;
+    LATEbits.LATE5 = 1;
     
 // 4. Open drain settings:
 	ODCBbits.ODB2 = 1;                     // open drain on "ON"
@@ -124,6 +126,11 @@ void initialize_HW(void){
     T2CONbits.TON = 1;          //Timer an
     T2CONbits.TCKPS = 0b10;     //Prescaler clock 1:64
     T2CONbits.TCS = 0;          //Clock Source Select Bit: 0= internal
+    //Timer3
+    T3CONbits.TON = 1;          //Timer an
+    T3CONbits.TCKPS = 0b11;     //Prescaler clock 1:256
+    T3CONbits.TCS = 0;          //Clock Source Select Bit: 0= internal
+    
     //Timer4
     T4CONbits.TON = 1;          //Timer an
     T4CONbits.TCKPS = 0b01;     //Prescaler clock 1:8 ->2000000
@@ -208,6 +215,7 @@ void initialize_HW(void){
     
     RPINR18bits.U1RXR=17;           //RP17 als Rx Uart1 
     RPOR7bits.RP14R=3;              //RP14 als U1TX UART1 Transmit
+    RPOR14bits.RP28R=7;             //SPI1 Data Output
 
     __builtin_write_OSCCONL(OSCCON | 0x40);
 
@@ -247,7 +255,7 @@ void initialize_HW(void){
     ADCON3bits.SLEN0=1;             //A/D Sample List 0 Enable 
     ADCON1bits.ADON =1;             //Enable ADC
     
-    ADL0CONLbits.SLTSRC = 0b00110;  //Set Trigger Source to CTMU 
+    ADL0CONLbits.SLTSRC = 0b00101;  //Set Trigger Source to Timer2
 
     while(ADSTATHbits.ADREADY==0);
 ////5. Sample List settings
@@ -256,7 +264,7 @@ void initialize_HW(void){
     ADL0CONHbits.ASEN=0;            //autosample disabled
     ADL0CONHbits.SLINT=0b01;        //Interrupt nach jedem sample
     ADL0CONLbits.SLSIZE = 00000;    //Sample List Size Select :1 Tables
-    ADL0CONLbits.SLTSRC=0b01000;    //trigger output compare - unsicher
+    ADL0CONLbits.SLTSRC=0b00101;    //trigger timer 2
     ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
     ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
     
@@ -312,30 +320,41 @@ void initialize_HW(void){
     OC1CON1bits.TRIGMODE = 1;
     */
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////PGA///////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////SPI//////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     
-    SPI1STAT.SPIEN=1;                           //SPI 1 Enable 
+    
+    //SCK als output und input gleichzeitig setzen: (Note3)
+    __builtin_write_OSCCONL(OSCCON & 0xbf);
+    
+    RPINR20bits.SCK1R=18;           //RP18 SPI1 Clock Input 
+    RPOR9bits.RP18R =8;             //Output Function Number RP18: Nummer 8 = SPI SCK1OUT
+
+    __builtin_write_OSCCONL(OSCCON | 0x40);
+    
+    
+    SPI1CON1bits.MSTEN=1;           //Master mode enable
+    SPI1CON1bits.MODE16=1;          //16 Bit Übertragung aktiv
+    SPI1CON1bits.CKE=0;             //data change on transition idle to active
+    SPI1CON1bits.CKP=0;             //idle low, active high
+    SPI1CON1bits.PPRE=0b01;         //primary Prescaler: 16:1
+    SPI1CON1bits.SPRE=0b110;        //secondary Prescaler: 2:1 - unsicher, welche Frequenz wir brauchen/können/wollen 
+    SPI1CON1bits.SSEN=0;            //Note: SSEN =0 für config auf GPIO Pin CS..
+    _SPI1IF=0;
+    _SPI1IE=1;
+    
+    SPI1STATbits.SISEL=0b101;
+    SPI1STATbits.SPIEN=1;            //SPI 1 Enable
+    SPI1STATbits.SPIROV=0;
+
     
     
     
+ 
     
     
     

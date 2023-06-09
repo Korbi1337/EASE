@@ -18,8 +18,8 @@ volatile uint16_t key_event=0;
 volatile uint16_t SendenFlag=0;
 volatile uint8_t receive_num[4];
 volatile uint16_t Display = 123; //Angezeiter Wert
-volatile uint8_t Displayflag=0;
-volatile uint16_t i =0;
+volatile uint8_t pgaflag=0;
+volatile uint8_t i =0;
 volatile uint16_t res=0;            //Result table 1 ADC
 volatile uint16_t res2=0;           //Result table 2 ADC
 volatile uint8_t send[6];
