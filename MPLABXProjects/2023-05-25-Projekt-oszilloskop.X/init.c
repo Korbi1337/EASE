@@ -140,6 +140,7 @@ void initialize_HW(void){
     //Timer Interrupt Enable
     IEC0bits.T2IE = 1;
     IEC1bits.T4IE = 1;
+    IEC0bits.T3IE =1;
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////LCD///////////////////////////////////////////////////
@@ -225,7 +226,7 @@ void initialize_HW(void){
     U1MODEbits.STSEL =0b0;          //1 Stopbit
     U1MODEbits.PDSEL =0b00;         //8 bit, no parity
     U1MODEbits.UARTEN = 0b1;        //UART Modul enable 
-    U1STAbits.URXISEL = 0b10;       //Interrupt, wenn Empfangspuffer 4 Zeichen enthaelt
+    U1STAbits.URXISEL = 0b10;       //Interrupt, wenn Empfangspuffer 4 Zeichen enthaelt 
     U1STAbits.UTXISEL0=0;           //Interrupt, wenn 
     U1STAbits.UTXISEL1=1;
     U1STAbits.UTXEN =1;             //Transmit enabled
@@ -329,10 +330,11 @@ void initialize_HW(void){
     
     
     //SCK als output und input gleichzeitig setzen: (Note3)
-    __builtin_write_OSCCONL(OSCCON & 0xbf);
+    __builtin_write_OSCCONL(OSCCON & 0xbf);//PPS
     
     RPINR20bits.SCK1R=18;           //RP18 SPI1 Clock Input 
     RPOR9bits.RP18R =8;             //Output Function Number RP18: Nummer 8 = SPI SCK1OUT
+    RPOR14bits.RP28R =7;            //SDO1 auf Pin RP28
 
     __builtin_write_OSCCONL(OSCCON | 0x40);
     
@@ -340,7 +342,7 @@ void initialize_HW(void){
     SPI1CON1bits.MSTEN=1;           //Master mode enable
     SPI1CON1bits.MODE16=1;          //16 Bit Übertragung aktiv
     SPI1CON1bits.CKE=0;             //data change on transition idle to active
-    SPI1CON1bits.CKP=0;             //idle low, active high
+    SPI1CON1bits.CKP=1 ;             //idle low, active high
     SPI1CON1bits.PPRE=0b01;         //primary Prescaler: 16:1
     SPI1CON1bits.SPRE=0b110;        //secondary Prescaler: 2:1 - unsicher, welche Frequenz wir brauchen/können/wollen 
     SPI1CON1bits.SSEN=0;            //Note: SSEN =0 für config auf GPIO Pin CS..

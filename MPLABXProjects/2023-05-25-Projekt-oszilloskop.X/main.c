@@ -10,7 +10,8 @@
 #define Key_K3 PORTBbits.RB3
 #define Key_K2 PORTDbits.RD8
 #define Key_K1 PORTBbits.RB7
-#define Chipselect LATEbits.LATE5
+#define Chipselect PORTEbits.RE5
+#define LEDD6   PORTCbits.RC15 
 
 void __attribute__((interrupt(auto_psv))) _DefaultInterrupt(void){
     LATCbits.LATC15 = 1 ^ PORTCbits.RC15;     //Default: LED D6 blinkt
@@ -33,12 +34,13 @@ while(DMACH0bits.CHREQ);*/
 
 void __attribute__((interrupt(auto_psv))) _T3Interrupt(void) //Interrupt Timer: alle 2 ms 
 {
-_T2IF=0; //reset Interrupt flag 
-i++;
-    if(i==50)//alle 100ms senden
+_T3IF=0; //reset Interrupt flag 
+z++;
+    LEDD6=1^LEDD6;
+    if(z==10)//alle 100ms senden 
     {
     _U1TXIF=1;
-    i=0;
+    z=0;
     }
 }
 
@@ -95,7 +97,12 @@ void __attribute__((interrupt(auto_psv))) _CNInterrupt(void){       //change not
 void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void){   
 
     IFS0bits.U1RXIF = 0;    //Reset Interrupt Flag   
-    Display=U1RXREG;
+//    Display=U1RXREG;
+    DataReceive[ByteNumber] = U1RXREG;
+    ByteNumber++;
+    
+    if(ByteNumber == 12)
+        ByteNumber = 0;
 
 }
 
@@ -153,6 +160,9 @@ int main(void)
             }
         
         
+        
+        
+        
             if(pgaflag==1){
                 if(((timer4ms-delaytime4)>entprellzeit)&&Key_K1==0)  //nach der entprellzeit wird der Ausgang beschrieben
                    
@@ -164,8 +174,8 @@ int main(void)
                    
                     while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
                     Chipselect = 0;
-                    SPI1BUF=0b0100000000000011;                  //gain register ansprechen, Gain auf 5
-                    while(!SPI1STATbits.SPIRBF);
+                    SPI1BUF=0b0100000000000001;                  //gain register ansprechen, Gain auf 1
+                    
                     
                     
                 }else if(((timer4ms-delaytime4)>entprellzeit)&&Key_K1==1){pgaflag = 0; key_event=0;}
