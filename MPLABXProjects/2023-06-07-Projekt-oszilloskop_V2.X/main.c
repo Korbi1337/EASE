@@ -102,7 +102,27 @@ void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void){
     ByteNumberRX++;
     
     if(ByteNumberRX == 12)
+    {
+        
+        //Set Vertical
+        while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
+        Chipselect = 0;
+        switch(DataReceive[3])                      //gain register ansprechen
+        {                                           //Richtige Werte Eintragen!!!
+            case 1: SPI1BUF=0b0100000000000001; break;  
+            case 2: SPI1BUF=0b0100000000000001; break;
+            case 3: SPI1BUF=0b0100000000000001; break;  
+            case 4: SPI1BUF=0b0100000000000001; break;
+        }
+        
+        //Set Horizontal
+        uint16_t N = DataReceive[5] + DataReceive[6]>>8;
+        //TAD und Fsample setzen
+        
+        
+        
         ByteNumberRX = 0;
+    }
 
 }
 
@@ -202,9 +222,9 @@ int main(void)
                     key_event=0;
                     //Aktion
                    
-                    while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
-                    Chipselect = 0;
-                    SPI1BUF=0b0100000000000001;                  //gain register ansprechen, Gain auf 1
+//                    while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
+//                    Chipselect = 0;
+//                    SPI1BUF=0b0100000000000001;                  //gain register ansprechen, Gain auf 1
                     
                     
                     

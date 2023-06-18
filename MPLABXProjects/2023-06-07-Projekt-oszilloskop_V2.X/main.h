@@ -24,7 +24,24 @@ volatile uint16_t res=0;            //Result table 1 ADC
 volatile uint16_t res2=0;           //Result table 2 ADC
 volatile uint8_t send[6];
 volatile uint16_t y =0;
+
 volatile uint8_t DataReceive[12];
+/*
+ * 0-1: ff
+ * 2:   'V' "Vertical"
+ * 3:   1   PGA gain: -1
+ *      2   PGA gain: -3
+ *      3   PGA gain: -9
+ *      4   PGA gain: -31
+ * 4:   'H' "Vertical"
+ * 5:   Low Byte N
+ * 6:   High Byte N 
+ * 7:   'T' "Trigger"
+ * 8:   Low Byte Trigger
+ * 9:   High Byte Trigger
+ * 10:  'A' or 'N' or 'S'
+ * 11:  'p' or 'n'
+ */
 volatile uint16_t DataSend[2048];
 volatile uint8_t *DataTXPointer = &DataSend;
 volatile uint8_t ByteNumberRX = 0;
