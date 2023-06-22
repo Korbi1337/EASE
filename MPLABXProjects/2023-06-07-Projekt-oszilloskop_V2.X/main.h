@@ -21,11 +21,12 @@ volatile uint16_t Display = 123; //Angezeiter Wert
 volatile uint8_t pgaflag=0;
 volatile uint8_t z =0;
 volatile uint16_t res=0;            //Result table 1 ADC
-volatile uint16_t res2=0;           //Result table 2 ADC
 volatile uint8_t send[6];
 volatile uint16_t y =0;
-
-volatile uint8_t DataReceive[12];
+volatile uint16_t N; 
+volatile uint8_t DataReceive[12]={0xff,0xff,'V',0x01,'H',0x4F,0x00,'T',0x00,0x08,'A','p'};
+volatile uint8_t startmessungflag=1;
+volatile uint8_t convertflag=1;
 /*
  * 0-1: ff
  * 2:   'V' "Vertical"
@@ -46,7 +47,7 @@ volatile uint16_t DataSend[2048];
 volatile uint8_t *DataTXPointer = &DataSend;
 volatile uint8_t ByteNumberRX = 0;
 volatile int16_t ByteNumberTX = -12;
-
+volatile uint16_t i;
 
 uint16_t entprellzeit=4;
 

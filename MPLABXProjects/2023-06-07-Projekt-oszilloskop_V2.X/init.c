@@ -140,7 +140,7 @@ void initialize_HW(void){
     //Timer Interrupt Enable
     IEC0bits.T2IE = 1;
     IEC1bits.T4IE = 1;
-    IEC0bits.T3IE =1;
+    //IEC0bits.T3IE =1;
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////LCD///////////////////////////////////////////////////
@@ -227,8 +227,8 @@ void initialize_HW(void){
     U1MODEbits.PDSEL =0b00;         //8 bit, no parity
     U1MODEbits.UARTEN = 0b1;        //UART Modul enable 
     U1STAbits.URXISEL = 0b10;       //Interrupt, wenn Empfangspuffer 4 Zeichen enthaelt 
-    U1STAbits.UTXISEL0=0;           //Interrupt, wenn 
-    U1STAbits.UTXISEL1=1;
+    U1STAbits.UTXISEL0=1;           //Interrupt, wenn 
+    U1STAbits.UTXISEL1=0;
     U1STAbits.UTXEN =1;             //Transmit enabled
     
     
@@ -265,15 +265,16 @@ void initialize_HW(void){
     ADL0CONHbits.ASEN=0;            //autosample disabled
     ADL0CONHbits.SLINT=0b01;        //Interrupt nach jedem sample
     ADL0CONLbits.SLSIZE = 00000;    //Sample List Size Select :1 Tables
-    ADL0CONLbits.SLTSRC=0b00101;    //trigger timer 2
+    ADL0CONLbits.SLTSRC=0b00111;    //trigger internal
     ADL0CONLbits.SAMP=1;            //Prepares to generate a trigger event
     ADL0CONLbits.SLENCLR=0;         //SLEN is cleared by software
     
     //Table 0: 
     ADTBL0bits.DIFF=0;              //Single-ended messung
-    ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
+    //ADTBL0bits.UCTMU = 0b1;         //Charge time measurement unit
     ADTBL0bits.ADCH=0;             //Ch0: AFE_out Analog frontend Oszi
 
+    ADTMRPR=0xc400;
     _SL0IF=0;                       //
     _AD1IE=1;                       //ADC Interrupt enable
     _AD1IF=0;                       //

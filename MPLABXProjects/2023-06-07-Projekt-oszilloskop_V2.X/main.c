@@ -32,7 +32,7 @@ while(DMACH0bits.CHREQ);*/
 }
 
 
-void __attribute__((interrupt(auto_psv))) _T3Interrupt(void) //Interrupt Timer: alle 2 ms 
+/*void __attribute__((interrupt(auto_psv))) _T3Interrupt(void) //Interrupt Timer: alle 2 ms 
 {
 _T3IF=0; //reset Interrupt flag 
 z++;
@@ -42,25 +42,18 @@ z++;
     _U1TXIF=1;
     z=0;
     }
-}
+}*/
 
 
 void __attribute__((interrupt(auto_psv))) _ADC1Interrupt(void){
     //3V = 4096 1V = 1365, 1mV =1.365
-    uint32_t x;
     _AD1IF=0;             //Interrupt Flag zurücksetzen
     ADL0CONLbits.SAMP=1;  //Schalter öffnen
     res = ADRES0;         //Tabelle 0 auslesen CTMU
-    
-    x= res;               
-    x=(x*1000)/1365;
-    res=x;
-    
-     
-    send[2]=(uint8_t)(res>>8); 
-    send[3]=(uint8_t)res;     
-    /*send[4]=(uint8_t)(res2>>8);      
-    send[5]=(uint8_t)res2;*/   
+
+    if(i>2048){i=0;_U1TXIF=1;convertflag=1;_AD1IE=0;return;}
+    DataSend[i]=res;
+    i++;
     ADL0CONLbits.SAMP=0;   //Schalter schließen
     
     
@@ -85,6 +78,7 @@ void __attribute__((interrupt(auto_psv))) _CNInterrupt(void){       //change not
         }
         if(Key_K2==0){           //Taster K2 - Messung von In1
            delaytime4 = timer4ms;
+           startmessungflag=1;
 
         }
         if(Key_K1==0){           ///Taster K1 - Umstellen PGA
@@ -98,31 +92,10 @@ void __attribute__((interrupt(auto_psv))) _U1RXInterrupt(void){
 
     IFS0bits.U1RXIF = 0;    //Reset Interrupt Flag   
 //    Display=U1RXREG;
+    
     DataReceive[ByteNumberRX] = U1RXREG;
     ByteNumberRX++;
-    
-    if(ByteNumberRX == 12)
-    {
-        
-        //Set Vertical
-        while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
-        Chipselect = 0;
-        switch(DataReceive[3])                      //gain register ansprechen
-        {                                           //Richtige Werte Eintragen!!!
-            case 1: SPI1BUF=0b0100000000000001; break;  
-            case 2: SPI1BUF=0b0100000000000001; break;
-            case 3: SPI1BUF=0b0100000000000001; break;  
-            case 4: SPI1BUF=0b0100000000000001; break;
-        }
-        
-        //Set Horizontal
-        uint16_t N = DataReceive[5] + DataReceive[6]>>8;
-        //TAD und Fsample setzen
-        
-        
-        
-        ByteNumberRX = 0;
-    }
+  
 
 }
 
@@ -136,38 +109,21 @@ void __attribute__((interrupt(auto_psv))) _SPI1Interrupt(void){
 
 
 void __attribute__((interrupt(auto_psv))) _U1TXInterrupt(void){
-    
-    
-//    if(y>3){y=0;_U1TXIF=0;return;}
-//
-//    U1TXREG=send[y];
-//    y++;
-//    U1TXREG=send[y];
-//    y++;
-    
+        
     if(ByteNumberTX < 4096)
     {
     
         while(!U1STAbits.UTXBF && ByteNumberTX < 4096)     //Writing Buffer while Buffer is not full (UT1BF = 1 if full)
         {
             
-            if(ByteNumberTX<0)
-                U1TXREG = DataReceive[ByteNumberTX+12];
-            else
-                U1TXREG = DataTXPointer[ByteNumberTX];
+            if(ByteNumberTX<0){
+                U1TXREG = DataReceive[ByteNumberTX+12];}
+            else{
+                U1TXREG = DataTXPointer[ByteNumberTX];}
 
             ByteNumberTX++;
-        }
-
-//    if(ByteNumberTX == 4096)
-//        ByteNumberTX++;
-//        
-//    if(ByteNumberTX == 4097)
-//        ByteNumberTX = -12;
-        
-    }
-//    else
-//        ByteNumberTX = 0;
+        }  
+    }//else{_AD1IE=1;_AD1IF=1;}
     
     _U1TXIF=0;
 } 
@@ -182,27 +138,32 @@ int main(void)
     PR2=1250;           //Einstellen Periodendauer 5ms
     PR4=1999;
     PR3=3999;
-    send[0]=0xff;
-    send[1]=0xff;
-    
-    DataSend[0] = 0xffff;
+    //uint16_t zaehlconv;
+    //DataSend[0] = 0xffff;
     //Print4Digits_LCD(Display);
         
 	while(1){
         
         
-            
-        Print4Digits_LCD(res);
+        if(ByteNumberTX >= 4096){
+            _AD1IE=1;
+            _AD1IF=1;
+        }
         
+        Print4Digits_LCD(res);
+
+     //hier
+        
+
         
             if(SendenFlag==1){
                 if(((timer4ms-delaytime4)>entprellzeit)&&Key_K3==0)  //nach der entprellzeit wird der Ausgang beschrieben
                    
                 {
                    
-                    _U1TXIF=1;
-                    ByteNumberTX = -12;
                     
+                    ByteNumberTX = -12;
+                    _U1TXIF=1;
                     SendenFlag = 0;                                 //Tasterflag zurücksetzen
                     key_event=0;
                     Print4Digits_LCD(res);                          //Update Display
@@ -210,27 +171,42 @@ int main(void)
             }
         
         
+         if(ByteNumberRX == 12)
+    {
+        
+        //Set Vertical
+        while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
+        Chipselect = 0;
+        switch(DataReceive[3])                      //gain register ansprechen
+        {                                           
+            case 1: SPI1BUF=0b0100000000000001; break;  //10V  PGA-Gain: 2 = -1
+            case 2: SPI1BUF=0b0100000000000010; break;  //3V   PGA-Gain: 4 = -3
+            case 3: SPI1BUF=0b0100000000000101; break;  //1V   PGA-Gain: 10 = -9
+            case 4: SPI1BUF=0b0100000000000111; break;  //0,3V PGA-Gain: 32 = -31
+        }
+        
+        //Set Horizontal
+        N = DataReceive[5] + (DataReceive[6]<<8);
+        ADTMRPR=N;
+
+        
+        ByteNumberRX = 0;
+         }
         
         
-        
-            if(pgaflag==1){
-                if(((timer4ms-delaytime4)>entprellzeit)&&Key_K1==0)  //nach der entprellzeit wird der Ausgang beschrieben
+        if(startmessungflag==1){
+                if(((timer4ms-delaytime4)>entprellzeit)&&Key_K2==0)  //nach der entprellzeit wird der Ausgang beschrieben
                    
                 {
-                    
-                    pgaflag = 0;                                 //Tasterflag zurücksetzen
+                    startmessungflag = 0;                                 //Tasterflag zurücksetzen
                     key_event=0;
                     //Aktion
                    
-//                    while(SPI1STATbits.SPITBF);                  //transmit buffer full abfragen
-//                    Chipselect = 0;
-//                    SPI1BUF=0b0100000000000001;                  //gain register ansprechen, Gain auf 1
+                   
                     
-                    
-                    
-                }else if(((timer4ms-delaytime4)>entprellzeit)&&Key_K1==1){pgaflag = 0; key_event=0;}
+                }else if(((timer4ms-delaytime4)>entprellzeit)&&Key_K2==1){startmessungflag= 0; key_event=0;}
             }
-
+     
                 
     }
 }
